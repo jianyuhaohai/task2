@@ -1,0 +1,2352 @@
+2023/06/08 16:40:18 - mmengine - INFO - 
+------------------------------------------------------------
+System environment:
+    sys.platform: linux
+    Python: 3.9.13 | packaged by conda-forge | (main, May 27 2022, 16:58:50) [GCC 10.3.0]
+    CUDA available: True
+    numpy_random_seed: 360467592
+    GPU 0: NVIDIA GeForce RTX 3090
+    CUDA_HOME: /home/ubuntu/anaconda3/envs/pytorch
+    NVCC: Cuda compilation tools, release 11.7, V11.7.99
+    GCC: gcc (Ubuntu 11.3.0-1ubuntu1~22.04) 11.3.0
+    PyTorch: 1.13.0.post200
+    PyTorch compiling details: PyTorch built with:
+  - GCC 10.4
+  - C++ Version: 201402
+  - Intel(R) oneAPI Math Kernel Library Version 2022.2-Product Build 20220804 for Intel(R) 64 architecture applications
+  - OpenMP 201511 (a.k.a. OpenMP 4.5)
+  - LAPACK is enabled (usually provided by MKL)
+  - NNPACK is enabled
+  - CPU capability usage: AVX2
+  - CUDA Runtime 11.8
+  - Built with CUDA Runtime 11.2
+  - NVCC architecture flags: -gencode;arch=compute_35,code=sm_35;-gencode;arch=compute_50,code=sm_50;-gencode;arch=compute_60,code=sm_60;-gencode;arch=compute_61,code=sm_61;-gencode;arch=compute_70,code=sm_70;-gencode;arch=compute_75,code=sm_75;-gencode;arch=compute_80,code=sm_80;-gencode;arch=compute_86,code=sm_86;-gencode;arch=compute_86,code=compute_86
+  - CuDNN 8.4.1  (built against CUDA 11.6)
+  - Magma 2.6.2
+  - Build settings: BLAS_INFO=mkl, BUILD_TYPE=Release, CUDA_VERSION=11.2, CUDNN_VERSION=8.4.1, CXX_COMPILER=/home/conda/feedstock_root/build_artifacts/pytorch-recipe_1670027390539/_build_env/bin/x86_64-conda-linux-gnu-c++, CXX_FLAGS=-std=c++17 -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /home/conda/feedstock_root/build_artifacts/pytorch-recipe_1670027390539/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeh/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/pytorch-recipe_1670027390539/work=/usr/local/src/conda/pytorch-1.13.0 -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/pytorch-recipe_1670027390539/_h_env_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placehold_placeh=/usr/local/src/conda-prefix -isystem /usr/local/cuda/include -Wno-deprecated-declarations -Wno-deprecated -fvisibility-inlines-hidden -DUSE_PTHREADPOOL -fopenmp -DNDEBUG -DUSE_FBGEMM -DUSE_QNNPACK -DUSE_PYTORCH_QNNPACK -DUSE_XNNPACK -DSYMBOLICATE_MOBILE_DEBUG_HANDLE -DEDGE_PROFILER_USE_KINETO -O2 -fPIC -Wno-narrowing -Wall -Wextra -Werror=return-type -Werror=non-virtual-dtor -Wno-missing-field-initializers -Wno-type-limits -Wno-array-bounds -Wno-unknown-pragmas -Wunused-local-typedefs -Wno-unused-parameter -Wno-unused-function -Wno-unused-result -Wno-strict-overflow -Wno-strict-aliasing -Wno-error=deprecated-declarations -Wno-stringop-overflow -Wno-psabi -Wno-error=pedantic -Wno-error=redundant-decls -Wno-error=old-style-cast -fdiagnostics-color=always -faligned-new -Wno-unused-but-set-variable -Wno-maybe-uninitialized -fno-math-errno -fno-trapping-math -Werror=format -Werror=cast-function-type -Wno-stringop-overflow, LAPACK_INFO=mkl, PERF_WITH_AVX=1, PERF_WITH_AVX2=1, PERF_WITH_AVX512=1, TORCH_VERSION=1.13.0, USE_CUDA=1, USE_CUDNN=ON, USE_EXCEPTION_PTR=1, USE_GFLAGS=OFF, USE_GLOG=OFF, USE_MKL=ON, USE_MKLDNN=OFF, USE_MPI=OFF, USE_NCCL=ON, USE_NNPACK=ON, USE_OPENMP=ON, USE_ROCM=OFF, 
+
+    TorchVision: 0.14.0
+    OpenCV: 4.7.0
+    MMEngine: 0.7.3
+
+Runtime environment:
+    cudnn_benchmark: False
+    mp_cfg: {'mp_start_method': 'fork', 'opencv_num_threads': 0}
+    dist_cfg: {'backend': 'nccl'}
+    seed: None
+    deterministic: False
+    Distributed launcher: none
+    Distributed training: False
+    GPU number: 1
+------------------------------------------------------------
+
+2023/06/08 16:40:18 - mmengine - INFO - Config:
+model = dict(
+    type='ImageClassifier',
+    backbone=dict(
+        type='ResNeSt',
+        depth=50,
+        num_stages=4,
+        out_indices=(3, ),
+        style='pytorch'),
+    neck=dict(type='GlobalAveragePooling'),
+    head=dict(
+        type='LinearClsHead',
+        num_classes=30,
+        in_channels=2048,
+        loss=dict(
+            type='LabelSmoothLoss',
+            label_smooth_val=0.1,
+            num_classes=30,
+            reduction='mean',
+            loss_weight=1.0),
+        topk=(1, 5),
+        cal_acc=False),
+    train_cfg=dict(augments=dict(type='Mixup', alpha=0.2)))
+dataset_type = 'My_ImageNet'
+data_preprocessor = dict(
+    num_classes=30,
+    mean=[123.675, 116.28, 103.53],
+    std=[58.395, 57.12, 57.375],
+    to_rgb=True)
+train_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='RandAugment',
+        policies=[
+            dict(type='AutoContrast', prob=0.5),
+            dict(type='Equalize', prob=0.5),
+            dict(type='Invert', prob=0.5),
+            dict(
+                type='Rotate',
+                magnitude_key='angle',
+                magnitude_range=(0, 30),
+                pad_val=0,
+                prob=0.5,
+                random_negative_prob=0.5),
+            dict(
+                type='Posterize',
+                magnitude_key='bits',
+                magnitude_range=(0, 4),
+                prob=0.5),
+            dict(
+                type='Solarize',
+                magnitude_key='thr',
+                magnitude_range=(0, 256),
+                prob=0.5),
+            dict(
+                type='SolarizeAdd',
+                magnitude_key='magnitude',
+                magnitude_range=(0, 110),
+                thr=128,
+                prob=0.5),
+            dict(
+                type='ColorTransform',
+                magnitude_key='magnitude',
+                magnitude_range=(-0.9, 0.9),
+                prob=0.5,
+                random_negative_prob=0.0),
+            dict(
+                type='Contrast',
+                magnitude_key='magnitude',
+                magnitude_range=(-0.9, 0.9),
+                prob=0.5,
+                random_negative_prob=0.0),
+            dict(
+                type='Brightness',
+                magnitude_key='magnitude',
+                magnitude_range=(-0.9, 0.9),
+                prob=0.5,
+                random_negative_prob=0.0),
+            dict(
+                type='Sharpness',
+                magnitude_key='magnitude',
+                magnitude_range=(-0.9, 0.9),
+                prob=0.5,
+                random_negative_prob=0.0),
+            dict(
+                type='Shear',
+                magnitude_key='magnitude',
+                magnitude_range=(0, 0.3),
+                pad_val=0,
+                prob=0.5,
+                direction='horizontal',
+                random_negative_prob=0.5),
+            dict(
+                type='Shear',
+                magnitude_key='magnitude',
+                magnitude_range=(0, 0.3),
+                pad_val=0,
+                prob=0.5,
+                direction='vertical',
+                random_negative_prob=0.5),
+            dict(
+                type='Cutout',
+                magnitude_key='shape',
+                magnitude_range=(1, 41),
+                pad_val=0,
+                prob=0.5),
+            dict(
+                type='Translate',
+                magnitude_key='magnitude',
+                magnitude_range=(0, 0.3),
+                pad_val=0,
+                prob=0.5,
+                direction='horizontal',
+                random_negative_prob=0.5,
+                interpolation='bicubic'),
+            dict(
+                type='Translate',
+                magnitude_key='magnitude',
+                magnitude_range=(0, 0.3),
+                pad_val=0,
+                prob=0.5,
+                direction='vertical',
+                random_negative_prob=0.5,
+                interpolation='bicubic')
+        ],
+        num_policies=2,
+        magnitude_level=12),
+    dict(type='EfficientNetRandomCrop', scale=224, backend='pillow'),
+    dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+    dict(type='ColorJitter', brightness=0.4, contrast=0.4, saturation=0.4),
+    dict(
+        type='Lighting',
+        eigval=[55.4625, 4.794, 1.1475],
+        eigvec=[[-0.5836, -0.6948, 0.4203], [-0.5808, -0.0045, -0.814],
+                [-0.5675, 0.7192, 0.4009]],
+        alphastd=0.1,
+        to_rgb=False),
+    dict(type='PackInputs')
+]
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(type='EfficientNetCenterCrop', crop_size=256, backend='pillow'),
+    dict(type='PackInputs')
+]
+train_dataloader = dict(
+    pin_memory=True,
+    persistent_workers=True,
+    collate_fn=dict(type='default_collate'),
+    batch_size=64,
+    num_workers=5,
+    dataset=dict(
+        type='My_ImageNet',
+        data_root='data/imagenet',
+        ann_file='train.txt',
+        data_prefix='',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='RandAugment',
+                policies=[
+                    dict(type='AutoContrast', prob=0.5),
+                    dict(type='Equalize', prob=0.5),
+                    dict(type='Invert', prob=0.5),
+                    dict(
+                        type='Rotate',
+                        magnitude_key='angle',
+                        magnitude_range=(0, 30),
+                        pad_val=0,
+                        prob=0.5,
+                        random_negative_prob=0.5),
+                    dict(
+                        type='Posterize',
+                        magnitude_key='bits',
+                        magnitude_range=(0, 4),
+                        prob=0.5),
+                    dict(
+                        type='Solarize',
+                        magnitude_key='thr',
+                        magnitude_range=(0, 256),
+                        prob=0.5),
+                    dict(
+                        type='SolarizeAdd',
+                        magnitude_key='magnitude',
+                        magnitude_range=(0, 110),
+                        thr=128,
+                        prob=0.5),
+                    dict(
+                        type='ColorTransform',
+                        magnitude_key='magnitude',
+                        magnitude_range=(-0.9, 0.9),
+                        prob=0.5,
+                        random_negative_prob=0.0),
+                    dict(
+                        type='Contrast',
+                        magnitude_key='magnitude',
+                        magnitude_range=(-0.9, 0.9),
+                        prob=0.5,
+                        random_negative_prob=0.0),
+                    dict(
+                        type='Brightness',
+                        magnitude_key='magnitude',
+                        magnitude_range=(-0.9, 0.9),
+                        prob=0.5,
+                        random_negative_prob=0.0),
+                    dict(
+                        type='Sharpness',
+                        magnitude_key='magnitude',
+                        magnitude_range=(-0.9, 0.9),
+                        prob=0.5,
+                        random_negative_prob=0.0),
+                    dict(
+                        type='Shear',
+                        magnitude_key='magnitude',
+                        magnitude_range=(0, 0.3),
+                        pad_val=0,
+                        prob=0.5,
+                        direction='horizontal',
+                        random_negative_prob=0.5),
+                    dict(
+                        type='Shear',
+                        magnitude_key='magnitude',
+                        magnitude_range=(0, 0.3),
+                        pad_val=0,
+                        prob=0.5,
+                        direction='vertical',
+                        random_negative_prob=0.5),
+                    dict(
+                        type='Cutout',
+                        magnitude_key='shape',
+                        magnitude_range=(1, 41),
+                        pad_val=0,
+                        prob=0.5),
+                    dict(
+                        type='Translate',
+                        magnitude_key='magnitude',
+                        magnitude_range=(0, 0.3),
+                        pad_val=0,
+                        prob=0.5,
+                        direction='horizontal',
+                        random_negative_prob=0.5,
+                        interpolation='bicubic'),
+                    dict(
+                        type='Translate',
+                        magnitude_key='magnitude',
+                        magnitude_range=(0, 0.3),
+                        pad_val=0,
+                        prob=0.5,
+                        direction='vertical',
+                        random_negative_prob=0.5,
+                        interpolation='bicubic')
+                ],
+                num_policies=2,
+                magnitude_level=12),
+            dict(type='EfficientNetRandomCrop', scale=224, backend='pillow'),
+            dict(type='RandomFlip', prob=0.5, direction='horizontal'),
+            dict(
+                type='ColorJitter',
+                brightness=0.4,
+                contrast=0.4,
+                saturation=0.4),
+            dict(
+                type='Lighting',
+                eigval=[55.4625, 4.794, 1.1475],
+                eigvec=[[-0.5836, -0.6948, 0.4203], [-0.5808, -0.0045, -0.814],
+                        [-0.5675, 0.7192, 0.4009]],
+                alphastd=0.1,
+                to_rgb=False),
+            dict(type='PackInputs')
+        ]),
+    sampler=dict(type='DefaultSampler', shuffle=True))
+val_dataloader = dict(
+    pin_memory=True,
+    persistent_workers=True,
+    collate_fn=dict(type='default_collate'),
+    batch_size=64,
+    num_workers=5,
+    dataset=dict(
+        type='My_ImageNet',
+        data_root='data/imagenet',
+        ann_file='val.txt',
+        data_prefix='',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='EfficientNetCenterCrop', crop_size=256,
+                backend='pillow'),
+            dict(type='PackInputs')
+        ]),
+    sampler=dict(type='DefaultSampler', shuffle=False))
+val_evaluator = dict(type='Accuracy', topk=(1, 5))
+test_dataloader = dict(
+    pin_memory=True,
+    persistent_workers=True,
+    collate_fn=dict(type='default_collate'),
+    batch_size=64,
+    num_workers=5,
+    dataset=dict(
+        type='My_ImageNet',
+        data_root='data/imagenet',
+        ann_file='val.txt',
+        data_prefix='',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(
+                type='EfficientNetCenterCrop', crop_size=256,
+                backend='pillow'),
+            dict(type='PackInputs')
+        ]),
+    sampler=dict(type='DefaultSampler', shuffle=False))
+test_evaluator = dict(type='Accuracy', topk=(1, 5))
+default_scope = 'mmpretrain'
+default_hooks = dict(
+    timer=dict(type='IterTimerHook'),
+    logger=dict(type='LoggerHook', interval=100),
+    param_scheduler=dict(type='ParamSchedulerHook'),
+    checkpoint=dict(type='CheckpointHook', interval=50),
+    sampler_seed=dict(type='DistSamplerSeedHook'),
+    visualization=dict(type='VisualizationHook', enable=False))
+env_cfg = dict(
+    cudnn_benchmark=False,
+    mp_cfg=dict(mp_start_method='fork', opencv_num_threads=0),
+    dist_cfg=dict(backend='nccl'))
+vis_backends = [dict(type='LocalVisBackend')]
+visualizer = dict(
+    type='UniversalVisualizer', vis_backends=[dict(type='LocalVisBackend')])
+log_level = 'INFO'
+load_from = None
+resume = False
+randomness = dict(seed=None, deterministic=False)
+policies = [
+    dict(type='AutoContrast', prob=0.5),
+    dict(type='Equalize', prob=0.5),
+    dict(type='Invert', prob=0.5),
+    dict(
+        type='Rotate',
+        magnitude_key='angle',
+        magnitude_range=(0, 30),
+        pad_val=0,
+        prob=0.5,
+        random_negative_prob=0.5),
+    dict(
+        type='Posterize',
+        magnitude_key='bits',
+        magnitude_range=(0, 4),
+        prob=0.5),
+    dict(
+        type='Solarize',
+        magnitude_key='thr',
+        magnitude_range=(0, 256),
+        prob=0.5),
+    dict(
+        type='SolarizeAdd',
+        magnitude_key='magnitude',
+        magnitude_range=(0, 110),
+        thr=128,
+        prob=0.5),
+    dict(
+        type='ColorTransform',
+        magnitude_key='magnitude',
+        magnitude_range=(-0.9, 0.9),
+        prob=0.5,
+        random_negative_prob=0.0),
+    dict(
+        type='Contrast',
+        magnitude_key='magnitude',
+        magnitude_range=(-0.9, 0.9),
+        prob=0.5,
+        random_negative_prob=0.0),
+    dict(
+        type='Brightness',
+        magnitude_key='magnitude',
+        magnitude_range=(-0.9, 0.9),
+        prob=0.5,
+        random_negative_prob=0.0),
+    dict(
+        type='Sharpness',
+        magnitude_key='magnitude',
+        magnitude_range=(-0.9, 0.9),
+        prob=0.5,
+        random_negative_prob=0.0),
+    dict(
+        type='Shear',
+        magnitude_key='magnitude',
+        magnitude_range=(0, 0.3),
+        pad_val=0,
+        prob=0.5,
+        direction='horizontal',
+        random_negative_prob=0.5),
+    dict(
+        type='Shear',
+        magnitude_key='magnitude',
+        magnitude_range=(0, 0.3),
+        pad_val=0,
+        prob=0.5,
+        direction='vertical',
+        random_negative_prob=0.5),
+    dict(
+        type='Cutout',
+        magnitude_key='shape',
+        magnitude_range=(1, 41),
+        pad_val=0,
+        prob=0.5),
+    dict(
+        type='Translate',
+        magnitude_key='magnitude',
+        magnitude_range=(0, 0.3),
+        pad_val=0,
+        prob=0.5,
+        direction='horizontal',
+        random_negative_prob=0.5,
+        interpolation='bicubic'),
+    dict(
+        type='Translate',
+        magnitude_key='magnitude',
+        magnitude_range=(0, 0.3),
+        pad_val=0,
+        prob=0.5,
+        direction='vertical',
+        random_negative_prob=0.5,
+        interpolation='bicubic')
+]
+EIGVAL = [55.4625, 4.794, 1.1475]
+EIGVEC = [[-0.5836, -0.6948, 0.4203], [-0.5808, -0.0045, -0.814],
+          [-0.5675, 0.7192, 0.4009]]
+optim_wrapper = dict(
+    optimizer=dict(type='SGD', lr=0.8, momentum=0.9, weight_decay=0.0001),
+    paramwise_cfg=dict(bias_decay_mult=0.0, norm_decay_mult=0.0))
+param_scheduler = [
+    dict(
+        type='LinearLR',
+        start_factor=1e-06,
+        by_epoch=True,
+        begin=0,
+        end=5,
+        convert_to_iter_based=True),
+    dict(type='CosineAnnealingLR', T_max=265, by_epoch=True, begin=5, end=270)
+]
+train_cfg = dict(by_epoch=True, max_epochs=270)
+val_cfg = dict()
+test_cfg = dict()
+auto_scale_lr = dict(base_batch_size=2048)
+launcher = 'none'
+work_dir = './work_dirs/my_resnest50_32xb64_in1k'
+
+2023/06/08 16:40:19 - mmengine - INFO - Because batch augmentations are enabled, the data preprocessor automatically enables the `to_onehot` option to generate one-hot format labels.
+2023/06/08 16:40:19 - mmengine - INFO - Distributed training is not used, all SyncBatchNorm (SyncBN) layers in the model will be automatically reverted to BatchNormXd layers if they are used.
+2023/06/08 16:40:19 - mmengine - INFO - Hooks will be executed in the following order:
+before_run:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+before_train:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_train_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) DistSamplerSeedHook                
+ -------------------- 
+before_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_train_iter:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train_epoch:
+(NORMAL      ) IterTimerHook                      
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_val_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_val_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_val_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) VisualizationHook                  
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_val_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+(LOW         ) ParamSchedulerHook                 
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+after_train:
+(VERY_LOW    ) CheckpointHook                     
+ -------------------- 
+before_test_epoch:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+before_test_iter:
+(NORMAL      ) IterTimerHook                      
+ -------------------- 
+after_test_iter:
+(NORMAL      ) IterTimerHook                      
+(NORMAL      ) VisualizationHook                  
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_test_epoch:
+(VERY_HIGH   ) RuntimeInfoHook                    
+(NORMAL      ) IterTimerHook                      
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+after_run:
+(BELOW_NORMAL) LoggerHook                         
+ -------------------- 
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.stem.0.bn.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.stem.0.bn.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.stem.1.bn.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.stem.1.bn.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.stem.2.bn.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.stem.2.bn.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.downsample.1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.0.downsample.1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.1.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer1.2.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.downsample.2.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.0.downsample.2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.1.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.2.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer2.3.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.downsample.2.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.0.downsample.2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.1.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.2.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.3.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.4.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer3.5.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.downsample.2.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.0.downsample.2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.1.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.conv2.bn0.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.conv2.bn0.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.conv2.fc1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.conv2.bn1.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.conv2.bn1.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.conv2.fc2.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.bn3.weight:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- backbone.layer4.2.bn3.bias:weight_decay=0.0
+2023/06/08 16:40:20 - mmengine - INFO - paramwise_options -- head.fc.bias:weight_decay=0.0
+Name of parameter - Initialization information
+
+backbone.stem.0.conv.weight - torch.Size([32, 3, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.stem.0.bn.weight - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.stem.0.bn.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.stem.1.conv.weight - torch.Size([32, 32, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.stem.1.bn.weight - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.stem.1.bn.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.stem.2.conv.weight - torch.Size([64, 32, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.stem.2.bn.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.stem.2.bn.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.conv1.weight - torch.Size([64, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.bn1.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.bn1.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.conv2.conv.weight - torch.Size([128, 32, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.conv2.bn0.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.conv2.bn0.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.conv2.fc1.weight - torch.Size([32, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.conv2.fc1.bias - torch.Size([32]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.conv2.bn1.weight - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.conv2.bn1.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.conv2.fc2.weight - torch.Size([128, 32, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.conv2.fc2.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.conv3.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.bn3.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer1.0.bn3.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.downsample.0.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.0.downsample.1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.0.downsample.1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.1.conv1.weight - torch.Size([64, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.1.bn1.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.1.bn1.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.1.conv2.conv.weight - torch.Size([128, 32, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.1.conv2.bn0.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.1.conv2.bn0.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.1.conv2.fc1.weight - torch.Size([32, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.1.conv2.fc1.bias - torch.Size([32]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.1.conv2.bn1.weight - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.1.conv2.bn1.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.1.conv2.fc2.weight - torch.Size([128, 32, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.1.conv2.fc2.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.1.conv3.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.1.bn3.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer1.1.bn3.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.2.conv1.weight - torch.Size([64, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.2.bn1.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.2.bn1.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.2.conv2.conv.weight - torch.Size([128, 32, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.2.conv2.bn0.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.2.conv2.bn0.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.2.conv2.fc1.weight - torch.Size([32, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.2.conv2.fc1.bias - torch.Size([32]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.2.conv2.bn1.weight - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.2.conv2.bn1.bias - torch.Size([32]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer1.2.conv2.fc2.weight - torch.Size([128, 32, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.2.conv2.fc2.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.2.conv3.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer1.2.bn3.weight - torch.Size([256]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer1.2.bn3.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.conv1.weight - torch.Size([128, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.conv2.conv.weight - torch.Size([256, 64, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.conv2.bn0.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.conv2.bn0.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.conv2.fc1.weight - torch.Size([64, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.conv2.fc1.bias - torch.Size([64]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.conv2.bn1.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.conv2.bn1.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.conv2.fc2.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.conv2.fc2.bias - torch.Size([256]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.conv3.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.bn3.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer2.0.bn3.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.downsample.1.weight - torch.Size([512, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.0.downsample.2.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.0.downsample.2.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.1.conv1.weight - torch.Size([128, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.1.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.1.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.1.conv2.conv.weight - torch.Size([256, 64, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.1.conv2.bn0.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.1.conv2.bn0.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.1.conv2.fc1.weight - torch.Size([64, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.1.conv2.fc1.bias - torch.Size([64]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.1.conv2.bn1.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.1.conv2.bn1.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.1.conv2.fc2.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.1.conv2.fc2.bias - torch.Size([256]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.1.conv3.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.1.bn3.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer2.1.bn3.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.2.conv1.weight - torch.Size([128, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.2.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.2.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.2.conv2.conv.weight - torch.Size([256, 64, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.2.conv2.bn0.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.2.conv2.bn0.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.2.conv2.fc1.weight - torch.Size([64, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.2.conv2.fc1.bias - torch.Size([64]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.2.conv2.bn1.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.2.conv2.bn1.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.2.conv2.fc2.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.2.conv2.fc2.bias - torch.Size([256]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.2.conv3.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.2.bn3.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer2.2.bn3.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.3.conv1.weight - torch.Size([128, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.3.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.3.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.3.conv2.conv.weight - torch.Size([256, 64, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.3.conv2.bn0.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.3.conv2.bn0.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.3.conv2.fc1.weight - torch.Size([64, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.3.conv2.fc1.bias - torch.Size([64]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.3.conv2.bn1.weight - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.3.conv2.bn1.bias - torch.Size([64]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer2.3.conv2.fc2.weight - torch.Size([256, 64, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.3.conv2.fc2.bias - torch.Size([256]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.3.conv3.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer2.3.bn3.weight - torch.Size([512]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer2.3.bn3.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.conv1.weight - torch.Size([256, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.conv2.conv.weight - torch.Size([512, 128, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.conv2.bn0.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.conv2.bn0.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.conv2.fc1.weight - torch.Size([128, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.conv2.fc1.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.conv2.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.conv2.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.conv2.fc2.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.conv2.fc2.bias - torch.Size([512]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.conv3.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.bn3.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer3.0.bn3.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.downsample.1.weight - torch.Size([1024, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.0.downsample.2.weight - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.0.downsample.2.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.1.conv1.weight - torch.Size([256, 1024, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.1.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.1.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.1.conv2.conv.weight - torch.Size([512, 128, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.1.conv2.bn0.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.1.conv2.bn0.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.1.conv2.fc1.weight - torch.Size([128, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.1.conv2.fc1.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.1.conv2.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.1.conv2.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.1.conv2.fc2.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.1.conv2.fc2.bias - torch.Size([512]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.1.conv3.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.1.bn3.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer3.1.bn3.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.2.conv1.weight - torch.Size([256, 1024, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.2.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.2.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.2.conv2.conv.weight - torch.Size([512, 128, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.2.conv2.bn0.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.2.conv2.bn0.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.2.conv2.fc1.weight - torch.Size([128, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.2.conv2.fc1.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.2.conv2.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.2.conv2.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.2.conv2.fc2.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.2.conv2.fc2.bias - torch.Size([512]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.2.conv3.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.2.bn3.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer3.2.bn3.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.3.conv1.weight - torch.Size([256, 1024, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.3.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.3.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.3.conv2.conv.weight - torch.Size([512, 128, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.3.conv2.bn0.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.3.conv2.bn0.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.3.conv2.fc1.weight - torch.Size([128, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.3.conv2.fc1.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.3.conv2.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.3.conv2.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.3.conv2.fc2.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.3.conv2.fc2.bias - torch.Size([512]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.3.conv3.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.3.bn3.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer3.3.bn3.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.4.conv1.weight - torch.Size([256, 1024, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.4.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.4.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.4.conv2.conv.weight - torch.Size([512, 128, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.4.conv2.bn0.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.4.conv2.bn0.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.4.conv2.fc1.weight - torch.Size([128, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.4.conv2.fc1.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.4.conv2.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.4.conv2.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.4.conv2.fc2.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.4.conv2.fc2.bias - torch.Size([512]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.4.conv3.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.4.bn3.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer3.4.bn3.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.5.conv1.weight - torch.Size([256, 1024, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.5.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.5.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.5.conv2.conv.weight - torch.Size([512, 128, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.5.conv2.bn0.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.5.conv2.bn0.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.5.conv2.fc1.weight - torch.Size([128, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.5.conv2.fc1.bias - torch.Size([128]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.5.conv2.bn1.weight - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.5.conv2.bn1.bias - torch.Size([128]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer3.5.conv2.fc2.weight - torch.Size([512, 128, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.5.conv2.fc2.bias - torch.Size([512]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.5.conv3.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer3.5.bn3.weight - torch.Size([1024]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer3.5.bn3.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.conv1.weight - torch.Size([512, 1024, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.bn1.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.bn1.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.conv2.conv.weight - torch.Size([1024, 256, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.conv2.bn0.weight - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.conv2.bn0.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.conv2.fc1.weight - torch.Size([256, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.conv2.fc1.bias - torch.Size([256]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.conv2.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.conv2.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.conv2.fc2.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.conv2.fc2.bias - torch.Size([1024]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.conv3.weight - torch.Size([2048, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.bn3.weight - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer4.0.bn3.bias - torch.Size([2048]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.downsample.1.weight - torch.Size([2048, 1024, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.0.downsample.2.weight - torch.Size([2048]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.0.downsample.2.bias - torch.Size([2048]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.1.conv1.weight - torch.Size([512, 2048, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.1.bn1.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.1.bn1.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.1.conv2.conv.weight - torch.Size([1024, 256, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.1.conv2.bn0.weight - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.1.conv2.bn0.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.1.conv2.fc1.weight - torch.Size([256, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.1.conv2.fc1.bias - torch.Size([256]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.1.conv2.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.1.conv2.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.1.conv2.fc2.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.1.conv2.fc2.bias - torch.Size([1024]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.1.conv3.weight - torch.Size([2048, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.1.bn3.weight - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer4.1.bn3.bias - torch.Size([2048]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.2.conv1.weight - torch.Size([512, 2048, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.2.bn1.weight - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.2.bn1.bias - torch.Size([512]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.2.conv2.conv.weight - torch.Size([1024, 256, 3, 3]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.2.conv2.bn0.weight - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.2.conv2.bn0.bias - torch.Size([1024]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.2.conv2.fc1.weight - torch.Size([256, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.2.conv2.fc1.bias - torch.Size([256]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.2.conv2.bn1.weight - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.2.conv2.bn1.bias - torch.Size([256]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+backbone.layer4.2.conv2.fc2.weight - torch.Size([1024, 256, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.2.conv2.fc2.bias - torch.Size([1024]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.2.conv3.weight - torch.Size([2048, 512, 1, 1]): 
+KaimingInit: a=0, mode=fan_out, nonlinearity=relu, distribution =normal, bias=0 
+
+backbone.layer4.2.bn3.weight - torch.Size([2048]): 
+Initialized by user-defined `init_weights` in ResNeSt  
+
+backbone.layer4.2.bn3.bias - torch.Size([2048]): 
+The value is the same before and after calling `init_weights` of ImageClassifier  
+
+head.fc.weight - torch.Size([30, 2048]): 
+NormalInit: mean=0, std=0.01, bias=0 
+
+head.fc.bias - torch.Size([30]): 
+NormalInit: mean=0, std=0.01, bias=0 
+2023/06/08 16:40:20 - mmengine - WARNING - "FileClient" will be deprecated in future. Please use io functions in https://mmengine.readthedocs.io/en/latest/api/fileio.html#file-io
+2023/06/08 16:40:20 - mmengine - WARNING - "HardDiskBackend" is the alias of "LocalBackend" and the former will be deprecated in future.
+2023/06/08 16:40:20 - mmengine - INFO - Checkpoints will be saved to /home/ubuntu/mmpretrain/work_dirs/my_resnest50_32xb64_in1k.
+2023/06/08 16:40:29 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:40:29 - mmengine - INFO - Epoch(train)   [1][37/37]  lr: 1.5652e-01  eta: 0:42:11  time: 0.1942  data_time: 0.0004  memory: 8251  loss: 5.0385
+2023/06/08 16:40:32 - mmengine - INFO - Epoch(val) [1][25/25]    accuracy/top1: 3.1048  accuracy/top5: 18.3700  data_time: 0.0140  time: 0.0945
+2023/06/08 16:40:39 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:40:39 - mmengine - INFO - Epoch(train)   [2][37/37]  lr: 3.1739e-01  eta: 0:38:36  time: 0.1868  data_time: 0.0003  memory: 8251  loss: 3.4867
+2023/06/08 16:40:42 - mmengine - INFO - Epoch(val) [2][25/25]    accuracy/top1: 3.4929  accuracy/top5: 16.3001  data_time: 0.0093  time: 0.0861
+2023/06/08 16:40:50 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:40:50 - mmengine - INFO - Epoch(train)   [3][37/37]  lr: 4.7826e-01  eta: 0:37:35  time: 0.1945  data_time: 0.0004  memory: 8251  loss: 3.3092
+2023/06/08 16:40:52 - mmengine - INFO - Epoch(val) [3][25/25]    accuracy/top1: 5.8215  accuracy/top5: 25.2911  data_time: 0.0092  time: 0.0860
+2023/06/08 16:41:00 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:41:00 - mmengine - INFO - Epoch(train)   [4][37/37]  lr: 6.3913e-01  eta: 0:36:55  time: 0.1908  data_time: 0.0003  memory: 8251  loss: 3.3368
+2023/06/08 16:41:02 - mmengine - INFO - Epoch(val) [4][25/25]    accuracy/top1: 10.3493  accuracy/top5: 37.5809  data_time: 0.0093  time: 0.0877
+2023/06/08 16:41:10 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:41:10 - mmengine - INFO - Epoch(train)   [5][37/37]  lr: 8.0000e-01  eta: 0:36:29  time: 0.1928  data_time: 0.0003  memory: 8251  loss: 3.3290
+2023/06/08 16:41:12 - mmengine - INFO - Epoch(val) [5][25/25]    accuracy/top1: 8.4735  accuracy/top5: 39.3920  data_time: 0.0093  time: 0.0880
+2023/06/08 16:41:20 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:41:20 - mmengine - INFO - Epoch(train)   [6][37/37]  lr: 8.0000e-01  eta: 0:36:07  time: 0.1914  data_time: 0.0002  memory: 8251  loss: 3.2965
+2023/06/08 16:41:23 - mmengine - INFO - Epoch(val) [6][25/25]    accuracy/top1: 10.8021  accuracy/top5: 41.7853  data_time: 0.0095  time: 0.0876
+2023/06/08 16:41:31 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:41:31 - mmengine - INFO - Epoch(train)   [7][37/37]  lr: 7.9997e-01  eta: 0:35:49  time: 0.1883  data_time: 0.0002  memory: 8251  loss: 3.2937
+2023/06/08 16:41:33 - mmengine - INFO - Epoch(val) [7][25/25]    accuracy/top1: 15.1358  accuracy/top5: 45.0194  data_time: 0.0094  time: 0.0868
+2023/06/08 16:41:41 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:41:41 - mmengine - INFO - Epoch(train)   [8][37/37]  lr: 7.9989e-01  eta: 0:35:36  time: 0.1963  data_time: 0.0003  memory: 8251  loss: 3.2136
+2023/06/08 16:41:43 - mmengine - INFO - Epoch(val) [8][25/25]    accuracy/top1: 10.0259  accuracy/top5: 37.3221  data_time: 0.0097  time: 0.0873
+2023/06/08 16:41:51 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:41:51 - mmengine - INFO - Epoch(train)   [9][37/37]  lr: 7.9975e-01  eta: 0:35:22  time: 0.1899  data_time: 0.0002  memory: 8251  loss: 3.2151
+2023/06/08 16:41:53 - mmengine - INFO - Epoch(val) [9][25/25]    accuracy/top1: 9.7025  accuracy/top5: 42.6908  data_time: 0.0094  time: 0.0882
+2023/06/08 16:42:01 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:42:01 - mmengine - INFO - Epoch(train)  [10][37/37]  lr: 7.9955e-01  eta: 0:35:09  time: 0.1930  data_time: 0.0003  memory: 8251  loss: 3.1290
+2023/06/08 16:42:03 - mmengine - INFO - Epoch(val) [10][25/25]    accuracy/top1: 12.7426  accuracy/top5: 50.1294  data_time: 0.0093  time: 0.0850
+2023/06/08 16:42:11 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:42:11 - mmengine - INFO - Epoch(train)  [11][37/37]  lr: 7.9930e-01  eta: 0:34:58  time: 0.1949  data_time: 0.0002  memory: 8251  loss: 3.1765
+2023/06/08 16:42:14 - mmengine - INFO - Epoch(val) [11][25/25]    accuracy/top1: 15.7180  accuracy/top5: 51.1643  data_time: 0.0093  time: 0.0877
+2023/06/08 16:42:22 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:42:22 - mmengine - INFO - Epoch(train)  [12][37/37]  lr: 7.9899e-01  eta: 0:34:48  time: 0.1893  data_time: 0.0002  memory: 8251  loss: 3.1949
+2023/06/08 16:42:24 - mmengine - INFO - Epoch(val) [12][25/25]    accuracy/top1: 18.6287  accuracy/top5: 54.2691  data_time: 0.0095  time: 0.0866
+2023/06/08 16:42:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:42:32 - mmengine - INFO - Epoch(train)  [13][37/37]  lr: 7.9862e-01  eta: 0:34:38  time: 0.1951  data_time: 0.0003  memory: 8251  loss: 3.1712
+2023/06/08 16:42:34 - mmengine - INFO - Epoch(val) [13][25/25]    accuracy/top1: 17.5291  accuracy/top5: 51.9405  data_time: 0.0092  time: 0.0869
+2023/06/08 16:42:42 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:42:42 - mmengine - INFO - Epoch(train)  [14][37/37]  lr: 7.9820e-01  eta: 0:34:27  time: 0.1896  data_time: 0.0002  memory: 8251  loss: 3.1534
+2023/06/08 16:42:44 - mmengine - INFO - Epoch(val) [14][25/25]    accuracy/top1: 14.9418  accuracy/top5: 54.9159  data_time: 0.0094  time: 0.0877
+2023/06/08 16:42:52 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:42:52 - mmengine - INFO - Epoch(train)  [15][37/37]  lr: 7.9773e-01  eta: 0:34:17  time: 0.1935  data_time: 0.0002  memory: 8251  loss: 3.1977
+2023/06/08 16:42:55 - mmengine - INFO - Epoch(val) [15][25/25]    accuracy/top1: 21.7335  accuracy/top5: 61.2548  data_time: 0.0093  time: 0.0854
+2023/06/08 16:43:03 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:43:03 - mmengine - INFO - Epoch(train)  [16][37/37]  lr: 7.9719e-01  eta: 0:34:07  time: 0.1942  data_time: 0.0003  memory: 8251  loss: 3.0934
+2023/06/08 16:43:05 - mmengine - INFO - Epoch(val) [16][25/25]    accuracy/top1: 22.0569  accuracy/top5: 62.5485  data_time: 0.0095  time: 0.0880
+2023/06/08 16:43:13 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:43:13 - mmengine - INFO - Epoch(train)  [17][37/37]  lr: 7.9660e-01  eta: 0:33:58  time: 0.1901  data_time: 0.0002  memory: 8251  loss: 3.0479
+2023/06/08 16:43:15 - mmengine - INFO - Epoch(val) [17][25/25]    accuracy/top1: 18.6934  accuracy/top5: 62.0957  data_time: 0.0097  time: 0.0866
+2023/06/08 16:43:23 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:43:23 - mmengine - INFO - Epoch(train)  [18][37/37]  lr: 7.9596e-01  eta: 0:33:50  time: 0.1954  data_time: 0.0003  memory: 8251  loss: 3.0953
+2023/06/08 16:43:25 - mmengine - INFO - Epoch(val) [18][25/25]    accuracy/top1: 24.9030  accuracy/top5: 69.1462  data_time: 0.0093  time: 0.0876
+2023/06/08 16:43:33 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:43:33 - mmengine - INFO - Epoch(train)  [19][37/37]  lr: 7.9526e-01  eta: 0:33:40  time: 0.1889  data_time: 0.0002  memory: 8251  loss: 3.0919
+2023/06/08 16:43:36 - mmengine - INFO - Epoch(val) [19][25/25]    accuracy/top1: 10.3493  accuracy/top5: 43.5964  data_time: 0.0094  time: 0.0902
+2023/06/08 16:43:44 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:43:44 - mmengine - INFO - Epoch(train)  [20][37/37]  lr: 7.9450e-01  eta: 0:33:32  time: 0.1956  data_time: 0.0003  memory: 8251  loss: 3.0106
+2023/06/08 16:43:46 - mmengine - INFO - Epoch(val) [20][25/25]    accuracy/top1: 11.4489  accuracy/top5: 42.4968  data_time: 0.0092  time: 0.0859
+2023/06/08 16:43:54 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:43:54 - mmengine - INFO - Epoch(train)  [21][37/37]  lr: 7.9369e-01  eta: 0:33:23  time: 0.1928  data_time: 0.0002  memory: 8251  loss: 3.0390
+2023/06/08 16:43:56 - mmengine - INFO - Epoch(val) [21][25/25]    accuracy/top1: 19.6636  accuracy/top5: 62.0957  data_time: 0.0095  time: 0.0868
+2023/06/08 16:44:04 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:44:04 - mmengine - INFO - Epoch(train)  [22][37/37]  lr: 7.9283e-01  eta: 0:33:15  time: 0.1923  data_time: 0.0002  memory: 8251  loss: 3.1242
+2023/06/08 16:44:06 - mmengine - INFO - Epoch(val) [22][25/25]    accuracy/top1: 23.5446  accuracy/top5: 66.4942  data_time: 0.0093  time: 0.0855
+2023/06/08 16:44:14 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:44:14 - mmengine - INFO - Epoch(train)  [23][37/37]  lr: 7.9190e-01  eta: 0:33:07  time: 0.1955  data_time: 0.0003  memory: 8251  loss: 3.1110
+2023/06/08 16:44:17 - mmengine - INFO - Epoch(val) [23][25/25]    accuracy/top1: 19.8577  accuracy/top5: 61.5783  data_time: 0.0093  time: 0.0879
+2023/06/08 16:44:25 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:44:25 - mmengine - INFO - Epoch(train)  [24][37/37]  lr: 7.9093e-01  eta: 0:32:58  time: 0.1888  data_time: 0.0002  memory: 8251  loss: 3.0923
+2023/06/08 16:44:27 - mmengine - INFO - Epoch(val) [24][25/25]    accuracy/top1: 18.8875  accuracy/top5: 62.0957  data_time: 0.0095  time: 0.0870
+2023/06/08 16:44:35 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:44:35 - mmengine - INFO - Epoch(train)  [25][37/37]  lr: 7.8990e-01  eta: 0:32:50  time: 0.1922  data_time: 0.0003  memory: 8251  loss: 3.1020
+2023/06/08 16:44:37 - mmengine - INFO - Epoch(val) [25][25/25]    accuracy/top1: 24.7736  accuracy/top5: 66.1061  data_time: 0.0092  time: 0.0864
+2023/06/08 16:44:45 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:44:45 - mmengine - INFO - Epoch(train)  [26][37/37]  lr: 7.8881e-01  eta: 0:32:41  time: 0.1909  data_time: 0.0002  memory: 8251  loss: 3.0296
+2023/06/08 16:44:47 - mmengine - INFO - Epoch(val) [26][25/25]    accuracy/top1: 25.9379  accuracy/top5: 70.1164  data_time: 0.0094  time: 0.0884
+2023/06/08 16:44:55 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:44:55 - mmengine - INFO - Epoch(train)  [27][37/37]  lr: 7.8767e-01  eta: 0:32:33  time: 0.1952  data_time: 0.0002  memory: 8251  loss: 3.0143
+2023/06/08 16:44:58 - mmengine - INFO - Epoch(val) [27][25/25]    accuracy/top1: 13.3894  accuracy/top5: 51.9405  data_time: 0.0097  time: 0.0857
+2023/06/08 16:44:58 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:45:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:45:06 - mmengine - INFO - Epoch(train)  [28][37/37]  lr: 7.8647e-01  eta: 0:32:26  time: 0.1941  data_time: 0.0002  memory: 8251  loss: 3.1502
+2023/06/08 16:45:08 - mmengine - INFO - Epoch(val) [28][25/25]    accuracy/top1: 21.9276  accuracy/top5: 65.7180  data_time: 0.0098  time: 0.0886
+2023/06/08 16:45:16 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:45:16 - mmengine - INFO - Epoch(train)  [29][37/37]  lr: 7.8522e-01  eta: 0:32:17  time: 0.1906  data_time: 0.0002  memory: 8251  loss: 3.1693
+2023/06/08 16:45:18 - mmengine - INFO - Epoch(val) [29][25/25]    accuracy/top1: 20.9573  accuracy/top5: 65.0065  data_time: 0.0095  time: 0.0864
+2023/06/08 16:45:26 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:45:26 - mmengine - INFO - Epoch(train)  [30][37/37]  lr: 7.8392e-01  eta: 0:32:10  time: 0.1963  data_time: 0.0003  memory: 8251  loss: 3.0426
+2023/06/08 16:45:29 - mmengine - INFO - Epoch(val) [30][25/25]    accuracy/top1: 15.7180  accuracy/top5: 58.2147  data_time: 0.0096  time: 0.0883
+2023/06/08 16:45:36 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:45:36 - mmengine - INFO - Epoch(train)  [31][37/37]  lr: 7.8256e-01  eta: 0:32:00  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0606
+2023/06/08 16:45:39 - mmengine - INFO - Epoch(val) [31][25/25]    accuracy/top1: 22.9625  accuracy/top5: 67.2057  data_time: 0.0094  time: 0.0848
+2023/06/08 16:45:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:45:46 - mmengine - INFO - Epoch(train)  [32][37/37]  lr: 7.8115e-01  eta: 0:31:51  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.1255
+2023/06/08 16:45:49 - mmengine - INFO - Epoch(val) [32][25/25]    accuracy/top1: 25.5498  accuracy/top5: 68.5640  data_time: 0.0096  time: 0.0851
+2023/06/08 16:45:56 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:45:56 - mmengine - INFO - Epoch(train)  [33][37/37]  lr: 7.7968e-01  eta: 0:31:41  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.1599
+2023/06/08 16:45:59 - mmengine - INFO - Epoch(val) [33][25/25]    accuracy/top1: 21.8629  accuracy/top5: 63.9715  data_time: 0.0093  time: 0.0848
+2023/06/08 16:46:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:46:06 - mmengine - INFO - Epoch(train)  [34][37/37]  lr: 7.7816e-01  eta: 0:31:31  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0944
+2023/06/08 16:46:09 - mmengine - INFO - Epoch(val) [34][25/25]    accuracy/top1: 21.6041  accuracy/top5: 64.3596  data_time: 0.0097  time: 0.0874
+2023/06/08 16:46:16 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:46:16 - mmengine - INFO - Epoch(train)  [35][37/37]  lr: 7.7659e-01  eta: 0:31:22  time: 0.1876  data_time: 0.0002  memory: 8251  loss: 3.0905
+2023/06/08 16:46:19 - mmengine - INFO - Epoch(val) [35][25/25]    accuracy/top1: 22.1863  accuracy/top5: 63.1307  data_time: 0.0095  time: 0.0850
+2023/06/08 16:46:26 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:46:26 - mmengine - INFO - Epoch(train)  [36][37/37]  lr: 7.7497e-01  eta: 0:31:13  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0996
+2023/06/08 16:46:29 - mmengine - INFO - Epoch(val) [36][25/25]    accuracy/top1: 14.4243  accuracy/top5: 45.6662  data_time: 0.0100  time: 0.0855
+2023/06/08 16:46:36 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:46:36 - mmengine - INFO - Epoch(train)  [37][37/37]  lr: 7.7329e-01  eta: 0:31:03  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 2.9894
+2023/06/08 16:46:39 - mmengine - INFO - Epoch(val) [37][25/25]    accuracy/top1: 23.0272  accuracy/top5: 63.3894  data_time: 0.0091  time: 0.0847
+2023/06/08 16:46:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:46:46 - mmengine - INFO - Epoch(train)  [38][37/37]  lr: 7.7156e-01  eta: 0:30:54  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 2.9163
+2023/06/08 16:46:49 - mmengine - INFO - Epoch(val) [38][25/25]    accuracy/top1: 28.2665  accuracy/top5: 67.2057  data_time: 0.0091  time: 0.0846
+2023/06/08 16:46:56 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:46:56 - mmengine - INFO - Epoch(train)  [39][37/37]  lr: 7.6978e-01  eta: 0:30:45  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0817
+2023/06/08 16:46:59 - mmengine - INFO - Epoch(val) [39][25/25]    accuracy/top1: 24.4502  accuracy/top5: 68.5640  data_time: 0.0093  time: 0.0847
+2023/06/08 16:47:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:47:06 - mmengine - INFO - Epoch(train)  [40][37/37]  lr: 7.6794e-01  eta: 0:30:36  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 2.9854
+2023/06/08 16:47:09 - mmengine - INFO - Epoch(val) [40][25/25]    accuracy/top1: 29.6248  accuracy/top5: 68.4994  data_time: 0.0102  time: 0.0857
+2023/06/08 16:47:16 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:47:16 - mmengine - INFO - Epoch(train)  [41][37/37]  lr: 7.6606e-01  eta: 0:30:27  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0034
+2023/06/08 16:47:19 - mmengine - INFO - Epoch(val) [41][25/25]    accuracy/top1: 24.9030  accuracy/top5: 70.3105  data_time: 0.0094  time: 0.0848
+2023/06/08 16:47:26 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:47:26 - mmengine - INFO - Epoch(train)  [42][37/37]  lr: 7.6412e-01  eta: 0:30:18  time: 0.1876  data_time: 0.0002  memory: 8251  loss: 3.1044
+2023/06/08 16:47:29 - mmengine - INFO - Epoch(val) [42][25/25]    accuracy/top1: 29.5602  accuracy/top5: 69.1462  data_time: 0.0095  time: 0.0850
+2023/06/08 16:47:36 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:47:36 - mmengine - INFO - Epoch(train)  [43][37/37]  lr: 7.6213e-01  eta: 0:30:09  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0783
+2023/06/08 16:47:39 - mmengine - INFO - Epoch(val) [43][25/25]    accuracy/top1: 27.2962  accuracy/top5: 69.2109  data_time: 0.0092  time: 0.0847
+2023/06/08 16:47:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:47:46 - mmengine - INFO - Epoch(train)  [44][37/37]  lr: 7.6009e-01  eta: 0:30:00  time: 0.1876  data_time: 0.0002  memory: 8251  loss: 2.9420
+2023/06/08 16:47:49 - mmengine - INFO - Epoch(val) [44][25/25]    accuracy/top1: 22.7038  accuracy/top5: 59.3790  data_time: 0.0096  time: 0.0851
+2023/06/08 16:47:56 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:47:56 - mmengine - INFO - Epoch(train)  [45][37/37]  lr: 7.5800e-01  eta: 0:29:51  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 2.9532
+2023/06/08 16:47:59 - mmengine - INFO - Epoch(val) [45][25/25]    accuracy/top1: 24.9030  accuracy/top5: 65.4592  data_time: 0.0098  time: 0.0853
+2023/06/08 16:48:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:48:06 - mmengine - INFO - Epoch(train)  [46][37/37]  lr: 7.5586e-01  eta: 0:29:43  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0539
+2023/06/08 16:48:09 - mmengine - INFO - Epoch(val) [46][25/25]    accuracy/top1: 23.6740  accuracy/top5: 60.8667  data_time: 0.0090  time: 0.0857
+2023/06/08 16:48:17 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:48:17 - mmengine - INFO - Epoch(train)  [47][37/37]  lr: 7.5367e-01  eta: 0:29:35  time: 0.1914  data_time: 0.0002  memory: 8251  loss: 3.0243
+2023/06/08 16:48:19 - mmengine - INFO - Epoch(val) [47][25/25]    accuracy/top1: 26.8435  accuracy/top5: 70.4398  data_time: 0.0095  time: 0.0854
+2023/06/08 16:48:27 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:48:27 - mmengine - INFO - Epoch(train)  [48][37/37]  lr: 7.5143e-01  eta: 0:29:27  time: 0.1902  data_time: 0.0002  memory: 8251  loss: 2.9463
+2023/06/08 16:48:29 - mmengine - INFO - Epoch(val) [48][25/25]    accuracy/top1: 23.4153  accuracy/top5: 64.1009  data_time: 0.0096  time: 0.0860
+2023/06/08 16:48:37 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:48:37 - mmengine - INFO - Epoch(train)  [49][37/37]  lr: 7.4914e-01  eta: 0:29:19  time: 0.1889  data_time: 0.0002  memory: 8251  loss: 2.9701
+2023/06/08 16:48:39 - mmengine - INFO - Epoch(val) [49][25/25]    accuracy/top1: 27.5550  accuracy/top5: 67.7232  data_time: 0.0092  time: 0.0855
+2023/06/08 16:48:47 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:48:47 - mmengine - INFO - Epoch(train)  [50][37/37]  lr: 7.4680e-01  eta: 0:29:10  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 2.8938
+2023/06/08 16:48:47 - mmengine - INFO - Saving checkpoint at 50 epochs
+2023/06/08 16:48:49 - mmengine - INFO - Epoch(val) [50][25/25]    accuracy/top1: 31.1772  accuracy/top5: 76.7788  data_time: 0.0094  time: 0.0848
+2023/06/08 16:48:57 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:48:57 - mmengine - INFO - Epoch(train)  [51][37/37]  lr: 7.4442e-01  eta: 0:29:01  time: 0.1874  data_time: 0.0002  memory: 8251  loss: 2.9784
+2023/06/08 16:48:59 - mmengine - INFO - Epoch(val) [51][25/25]    accuracy/top1: 28.7193  accuracy/top5: 70.8279  data_time: 0.0093  time: 0.0849
+2023/06/08 16:49:07 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:49:07 - mmengine - INFO - Epoch(train)  [52][37/37]  lr: 7.4198e-01  eta: 0:28:53  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 2.8913
+2023/06/08 16:49:09 - mmengine - INFO - Epoch(val) [52][25/25]    accuracy/top1: 27.2962  accuracy/top5: 73.9974  data_time: 0.0096  time: 0.0851
+2023/06/08 16:49:17 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:49:17 - mmengine - INFO - Epoch(train)  [53][37/37]  lr: 7.3950e-01  eta: 0:28:44  time: 0.1875  data_time: 0.0002  memory: 8251  loss: 3.0150
+2023/06/08 16:49:20 - mmengine - INFO - Epoch(val) [53][25/25]    accuracy/top1: 31.1125  accuracy/top5: 70.7633  data_time: 0.0096  time: 0.0900
+2023/06/08 16:49:28 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:49:28 - mmengine - INFO - Epoch(train)  [54][37/37]  lr: 7.3697e-01  eta: 0:28:37  time: 0.1922  data_time: 0.0003  memory: 8251  loss: 3.0492
+2023/06/08 16:49:30 - mmengine - INFO - Epoch(val) [54][25/25]    accuracy/top1: 27.1022  accuracy/top5: 69.0815  data_time: 0.0093  time: 0.0910
+2023/06/08 16:49:31 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:49:38 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:49:38 - mmengine - INFO - Epoch(train)  [55][37/37]  lr: 7.3439e-01  eta: 0:28:30  time: 0.1923  data_time: 0.0003  memory: 8251  loss: 2.9394
+2023/06/08 16:49:40 - mmengine - INFO - Epoch(val) [55][25/25]    accuracy/top1: 26.7141  accuracy/top5: 71.2160  data_time: 0.0095  time: 0.0857
+2023/06/08 16:49:48 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:49:48 - mmengine - INFO - Epoch(train)  [56][37/37]  lr: 7.3176e-01  eta: 0:28:22  time: 0.2009  data_time: 0.0004  memory: 8251  loss: 2.8758
+2023/06/08 16:49:51 - mmengine - INFO - Epoch(val) [56][25/25]    accuracy/top1: 25.4204  accuracy/top5: 68.4994  data_time: 0.0093  time: 0.0919
+2023/06/08 16:49:59 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:49:59 - mmengine - INFO - Epoch(train)  [57][37/37]  lr: 7.2909e-01  eta: 0:28:16  time: 0.2051  data_time: 0.0004  memory: 8251  loss: 2.9495
+2023/06/08 16:50:02 - mmengine - INFO - Epoch(val) [57][25/25]    accuracy/top1: 25.6792  accuracy/top5: 72.9625  data_time: 0.0094  time: 0.0918
+2023/06/08 16:50:10 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:50:10 - mmengine - INFO - Epoch(train)  [58][37/37]  lr: 7.2637e-01  eta: 0:28:10  time: 0.2036  data_time: 0.0004  memory: 8251  loss: 3.0049
+2023/06/08 16:50:13 - mmengine - INFO - Epoch(val) [58][25/25]    accuracy/top1: 23.9974  accuracy/top5: 63.4541  data_time: 0.0094  time: 0.0908
+2023/06/08 16:50:21 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:50:21 - mmengine - INFO - Epoch(train)  [59][37/37]  lr: 7.2361e-01  eta: 0:28:04  time: 0.2036  data_time: 0.0003  memory: 8251  loss: 2.9311
+2023/06/08 16:50:23 - mmengine - INFO - Epoch(val) [59][25/25]    accuracy/top1: 32.3415  accuracy/top5: 73.4153  data_time: 0.0093  time: 0.0909
+2023/06/08 16:50:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:50:32 - mmengine - INFO - Epoch(train)  [60][37/37]  lr: 7.2080e-01  eta: 0:27:58  time: 0.2037  data_time: 0.0004  memory: 8251  loss: 2.9481
+2023/06/08 16:50:34 - mmengine - INFO - Epoch(val) [60][25/25]    accuracy/top1: 34.2820  accuracy/top5: 76.0026  data_time: 0.0094  time: 0.0909
+2023/06/08 16:50:43 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:50:43 - mmengine - INFO - Epoch(train)  [61][37/37]  lr: 7.1794e-01  eta: 0:27:52  time: 0.2036  data_time: 0.0004  memory: 8251  loss: 3.0019
+2023/06/08 16:50:45 - mmengine - INFO - Epoch(val) [61][25/25]    accuracy/top1: 19.1462  accuracy/top5: 62.4838  data_time: 0.0095  time: 0.0912
+2023/06/08 16:50:53 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:50:53 - mmengine - INFO - Epoch(train)  [62][37/37]  lr: 7.1504e-01  eta: 0:27:45  time: 0.2035  data_time: 0.0004  memory: 8251  loss: 2.8512
+2023/06/08 16:50:56 - mmengine - INFO - Epoch(val) [62][25/25]    accuracy/top1: 35.7697  accuracy/top5: 78.7193  data_time: 0.0096  time: 0.0914
+2023/06/08 16:51:04 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:51:04 - mmengine - INFO - Epoch(train)  [63][37/37]  lr: 7.1210e-01  eta: 0:27:39  time: 0.2041  data_time: 0.0003  memory: 8251  loss: 3.0044
+2023/06/08 16:51:07 - mmengine - INFO - Epoch(val) [63][25/25]    accuracy/top1: 28.5899  accuracy/top5: 73.4799  data_time: 0.0095  time: 0.0915
+2023/06/08 16:51:15 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:51:15 - mmengine - INFO - Epoch(train)  [64][37/37]  lr: 7.0911e-01  eta: 0:27:32  time: 0.2037  data_time: 0.0003  memory: 8251  loss: 2.9760
+2023/06/08 16:51:17 - mmengine - INFO - Epoch(val) [64][25/25]    accuracy/top1: 31.9534  accuracy/top5: 74.5796  data_time: 0.0092  time: 0.0907
+2023/06/08 16:51:26 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:51:26 - mmengine - INFO - Epoch(train)  [65][37/37]  lr: 7.0608e-01  eta: 0:27:25  time: 0.2027  data_time: 0.0003  memory: 8251  loss: 2.9312
+2023/06/08 16:51:28 - mmengine - INFO - Epoch(val) [65][25/25]    accuracy/top1: 31.0479  accuracy/top5: 77.9431  data_time: 0.0098  time: 0.0917
+2023/06/08 16:51:37 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:51:37 - mmengine - INFO - Epoch(train)  [66][37/37]  lr: 7.0300e-01  eta: 0:27:19  time: 0.2028  data_time: 0.0004  memory: 8251  loss: 2.8440
+2023/06/08 16:51:39 - mmengine - INFO - Epoch(val) [66][25/25]    accuracy/top1: 23.0272  accuracy/top5: 64.1656  data_time: 0.0095  time: 0.0907
+2023/06/08 16:51:47 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:51:47 - mmengine - INFO - Epoch(train)  [67][37/37]  lr: 6.9989e-01  eta: 0:27:12  time: 0.2020  data_time: 0.0003  memory: 8251  loss: 2.9582
+2023/06/08 16:51:50 - mmengine - INFO - Epoch(val) [67][25/25]    accuracy/top1: 33.1177  accuracy/top5: 76.0673  data_time: 0.0095  time: 0.0909
+2023/06/08 16:51:58 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:51:58 - mmengine - INFO - Epoch(train)  [68][37/37]  lr: 6.9673e-01  eta: 0:27:04  time: 0.2017  data_time: 0.0003  memory: 8251  loss: 2.8712
+2023/06/08 16:52:00 - mmengine - INFO - Epoch(val) [68][25/25]    accuracy/top1: 32.1475  accuracy/top5: 76.0026  data_time: 0.0095  time: 0.0907
+2023/06/08 16:52:09 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:52:09 - mmengine - INFO - Epoch(train)  [69][37/37]  lr: 6.9353e-01  eta: 0:26:57  time: 0.2017  data_time: 0.0003  memory: 8251  loss: 2.8876
+2023/06/08 16:52:11 - mmengine - INFO - Epoch(val) [69][25/25]    accuracy/top1: 33.2471  accuracy/top5: 75.0970  data_time: 0.0094  time: 0.0905
+2023/06/08 16:52:20 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:52:20 - mmengine - INFO - Epoch(train)  [70][37/37]  lr: 6.9029e-01  eta: 0:26:50  time: 0.2017  data_time: 0.0003  memory: 8251  loss: 2.9315
+2023/06/08 16:52:22 - mmengine - INFO - Epoch(val) [70][25/25]    accuracy/top1: 31.8887  accuracy/top5: 75.7439  data_time: 0.0094  time: 0.0902
+2023/06/08 16:52:30 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:52:30 - mmengine - INFO - Epoch(train)  [71][37/37]  lr: 6.8700e-01  eta: 0:26:43  time: 0.2020  data_time: 0.0003  memory: 8251  loss: 2.9261
+2023/06/08 16:52:33 - mmengine - INFO - Epoch(val) [71][25/25]    accuracy/top1: 29.8189  accuracy/top5: 73.0918  data_time: 0.0098  time: 0.0910
+2023/06/08 16:52:41 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:52:41 - mmengine - INFO - Epoch(train)  [72][37/37]  lr: 6.8368e-01  eta: 0:26:36  time: 0.2011  data_time: 0.0004  memory: 8251  loss: 2.9595
+2023/06/08 16:52:43 - mmengine - INFO - Epoch(val) [72][25/25]    accuracy/top1: 33.5058  accuracy/top5: 76.7788  data_time: 0.0094  time: 0.0903
+2023/06/08 16:52:52 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:52:52 - mmengine - INFO - Epoch(train)  [73][37/37]  lr: 6.8032e-01  eta: 0:26:29  time: 0.2014  data_time: 0.0003  memory: 8251  loss: 2.8247
+2023/06/08 16:52:54 - mmengine - INFO - Epoch(val) [73][25/25]    accuracy/top1: 29.6895  accuracy/top5: 70.6986  data_time: 0.0095  time: 0.0907
+2023/06/08 16:53:02 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:53:02 - mmengine - INFO - Epoch(train)  [74][37/37]  lr: 6.7691e-01  eta: 0:26:22  time: 0.2018  data_time: 0.0004  memory: 8251  loss: 2.8001
+2023/06/08 16:53:05 - mmengine - INFO - Epoch(val) [74][25/25]    accuracy/top1: 40.4916  accuracy/top5: 80.5951  data_time: 0.0093  time: 0.0905
+2023/06/08 16:53:13 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:53:13 - mmengine - INFO - Epoch(train)  [75][37/37]  lr: 6.7347e-01  eta: 0:26:14  time: 0.2024  data_time: 0.0004  memory: 8251  loss: 2.8354
+2023/06/08 16:53:15 - mmengine - INFO - Epoch(val) [75][25/25]    accuracy/top1: 31.1772  accuracy/top5: 70.2458  data_time: 0.0096  time: 0.0908
+2023/06/08 16:53:24 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:53:24 - mmengine - INFO - Epoch(train)  [76][37/37]  lr: 6.6999e-01  eta: 0:26:07  time: 0.1997  data_time: 0.0003  memory: 8251  loss: 2.9667
+2023/06/08 16:53:26 - mmengine - INFO - Epoch(val) [76][25/25]    accuracy/top1: 37.3221  accuracy/top5: 73.8680  data_time: 0.0093  time: 0.0899
+2023/06/08 16:53:34 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:53:34 - mmengine - INFO - Epoch(train)  [77][37/37]  lr: 6.6648e-01  eta: 0:25:59  time: 0.2006  data_time: 0.0003  memory: 8251  loss: 2.7435
+2023/06/08 16:53:37 - mmengine - INFO - Epoch(val) [77][25/25]    accuracy/top1: 39.1979  accuracy/top5: 80.1423  data_time: 0.0093  time: 0.0900
+2023/06/08 16:53:45 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:53:45 - mmengine - INFO - Epoch(train)  [78][37/37]  lr: 6.6292e-01  eta: 0:25:52  time: 0.2000  data_time: 0.0003  memory: 8251  loss: 2.9137
+2023/06/08 16:53:47 - mmengine - INFO - Epoch(val) [78][25/25]    accuracy/top1: 25.4204  accuracy/top5: 68.3053  data_time: 0.0096  time: 0.0901
+2023/06/08 16:53:56 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:53:56 - mmengine - INFO - Epoch(train)  [79][37/37]  lr: 6.5933e-01  eta: 0:25:44  time: 0.2011  data_time: 0.0002  memory: 8251  loss: 2.8065
+2023/06/08 16:53:58 - mmengine - INFO - Epoch(val) [79][25/25]    accuracy/top1: 33.4411  accuracy/top5: 75.0970  data_time: 0.0095  time: 0.0901
+2023/06/08 16:54:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:54:06 - mmengine - INFO - Epoch(train)  [80][37/37]  lr: 6.5570e-01  eta: 0:25:37  time: 0.2011  data_time: 0.0003  memory: 8251  loss: 2.9484
+2023/06/08 16:54:09 - mmengine - INFO - Epoch(val) [80][25/25]    accuracy/top1: 32.8590  accuracy/top5: 72.9625  data_time: 0.0091  time: 0.0899
+2023/06/08 16:54:17 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:54:17 - mmengine - INFO - Epoch(train)  [81][37/37]  lr: 6.5204e-01  eta: 0:25:30  time: 0.2006  data_time: 0.0002  memory: 8251  loss: 2.8650
+2023/06/08 16:54:19 - mmengine - INFO - Epoch(val) [81][25/25]    accuracy/top1: 37.5162  accuracy/top5: 76.3260  data_time: 0.0098  time: 0.0906
+2023/06/08 16:54:21 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:54:28 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:54:28 - mmengine - INFO - Epoch(train)  [82][37/37]  lr: 6.4834e-01  eta: 0:25:22  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 2.8363
+2023/06/08 16:54:30 - mmengine - INFO - Epoch(val) [82][25/25]    accuracy/top1: 34.9935  accuracy/top5: 79.1721  data_time: 0.0095  time: 0.0907
+2023/06/08 16:54:39 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:54:39 - mmengine - INFO - Epoch(train)  [83][37/37]  lr: 6.4460e-01  eta: 0:25:15  time: 0.2030  data_time: 0.0003  memory: 8251  loss: 2.8632
+2023/06/08 16:54:41 - mmengine - INFO - Epoch(val) [83][25/25]    accuracy/top1: 37.5162  accuracy/top5: 78.7840  data_time: 0.0093  time: 0.0911
+2023/06/08 16:54:49 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:54:49 - mmengine - INFO - Epoch(train)  [84][37/37]  lr: 6.4083e-01  eta: 0:25:07  time: 0.2033  data_time: 0.0004  memory: 8251  loss: 2.8065
+2023/06/08 16:54:52 - mmengine - INFO - Epoch(val) [84][25/25]    accuracy/top1: 39.0039  accuracy/top5: 80.0129  data_time: 0.0094  time: 0.0910
+2023/06/08 16:55:00 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:55:00 - mmengine - INFO - Epoch(train)  [85][37/37]  lr: 6.3703e-01  eta: 0:25:00  time: 0.2030  data_time: 0.0003  memory: 8251  loss: 2.8264
+2023/06/08 16:55:02 - mmengine - INFO - Epoch(val) [85][25/25]    accuracy/top1: 36.9987  accuracy/top5: 79.1721  data_time: 0.0093  time: 0.0904
+2023/06/08 16:55:11 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:55:11 - mmengine - INFO - Epoch(train)  [86][37/37]  lr: 6.3319e-01  eta: 0:24:52  time: 0.2020  data_time: 0.0002  memory: 8251  loss: 2.9692
+2023/06/08 16:55:13 - mmengine - INFO - Epoch(val) [86][25/25]    accuracy/top1: 26.6494  accuracy/top5: 71.9922  data_time: 0.0095  time: 0.0906
+2023/06/08 16:55:22 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:55:22 - mmengine - INFO - Epoch(train)  [87][37/37]  lr: 6.2932e-01  eta: 0:24:45  time: 0.2033  data_time: 0.0003  memory: 8251  loss: 2.8045
+2023/06/08 16:55:24 - mmengine - INFO - Epoch(val) [87][25/25]    accuracy/top1: 30.6598  accuracy/top5: 71.4748  data_time: 0.0094  time: 0.0913
+2023/06/08 16:55:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:55:32 - mmengine - INFO - Epoch(train)  [88][37/37]  lr: 6.2542e-01  eta: 0:24:37  time: 0.2027  data_time: 0.0003  memory: 8251  loss: 2.8087
+2023/06/08 16:55:35 - mmengine - INFO - Epoch(val) [88][25/25]    accuracy/top1: 39.6507  accuracy/top5: 78.9780  data_time: 0.0096  time: 0.0911
+2023/06/08 16:55:43 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:55:43 - mmengine - INFO - Epoch(train)  [89][37/37]  lr: 6.2149e-01  eta: 0:24:30  time: 0.2035  data_time: 0.0003  memory: 8251  loss: 2.8581
+2023/06/08 16:55:45 - mmengine - INFO - Epoch(val) [89][25/25]    accuracy/top1: 39.5213  accuracy/top5: 78.2018  data_time: 0.0093  time: 0.0907
+2023/06/08 16:55:54 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:55:54 - mmengine - INFO - Epoch(train)  [90][37/37]  lr: 6.1752e-01  eta: 0:24:22  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 2.8429
+2023/06/08 16:55:56 - mmengine - INFO - Epoch(val) [90][25/25]    accuracy/top1: 39.9741  accuracy/top5: 79.1721  data_time: 0.0096  time: 0.0908
+2023/06/08 16:56:05 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:56:05 - mmengine - INFO - Epoch(train)  [91][37/37]  lr: 6.1353e-01  eta: 0:24:15  time: 0.2015  data_time: 0.0003  memory: 8251  loss: 2.8033
+2023/06/08 16:56:07 - mmengine - INFO - Epoch(val) [91][25/25]    accuracy/top1: 45.9896  accuracy/top5: 83.8292  data_time: 0.0095  time: 0.0903
+2023/06/08 16:56:15 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:56:15 - mmengine - INFO - Epoch(train)  [92][37/37]  lr: 6.0950e-01  eta: 0:24:07  time: 0.2013  data_time: 0.0002  memory: 8251  loss: 2.7087
+2023/06/08 16:56:18 - mmengine - INFO - Epoch(val) [92][25/25]    accuracy/top1: 45.6016  accuracy/top5: 83.4411  data_time: 0.0095  time: 0.0907
+2023/06/08 16:56:26 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:56:26 - mmengine - INFO - Epoch(train)  [93][37/37]  lr: 6.0545e-01  eta: 0:23:59  time: 0.2019  data_time: 0.0002  memory: 8251  loss: 2.8454
+2023/06/08 16:56:28 - mmengine - INFO - Epoch(val) [93][25/25]    accuracy/top1: 37.1281  accuracy/top5: 80.3363  data_time: 0.0096  time: 0.0908
+2023/06/08 16:56:37 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:56:37 - mmengine - INFO - Epoch(train)  [94][37/37]  lr: 6.0137e-01  eta: 0:23:52  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 2.8138
+2023/06/08 16:56:39 - mmengine - INFO - Epoch(val) [94][25/25]    accuracy/top1: 37.8396  accuracy/top5: 76.5201  data_time: 0.0094  time: 0.0905
+2023/06/08 16:56:47 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:56:47 - mmengine - INFO - Epoch(train)  [95][37/37]  lr: 5.9726e-01  eta: 0:23:44  time: 0.2017  data_time: 0.0002  memory: 8251  loss: 2.9395
+2023/06/08 16:56:50 - mmengine - INFO - Epoch(val) [95][25/25]    accuracy/top1: 40.1035  accuracy/top5: 79.0427  data_time: 0.0093  time: 0.0906
+2023/06/08 16:56:58 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:56:58 - mmengine - INFO - Epoch(train)  [96][37/37]  lr: 5.9312e-01  eta: 0:23:36  time: 0.2017  data_time: 0.0002  memory: 8251  loss: 2.8059
+2023/06/08 16:57:00 - mmengine - INFO - Epoch(val) [96][25/25]    accuracy/top1: 42.8849  accuracy/top5: 84.6701  data_time: 0.0094  time: 0.0909
+2023/06/08 16:57:09 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:57:09 - mmengine - INFO - Epoch(train)  [97][37/37]  lr: 5.8895e-01  eta: 0:23:29  time: 0.2021  data_time: 0.0002  memory: 8251  loss: 2.8224
+2023/06/08 16:57:11 - mmengine - INFO - Epoch(val) [97][25/25]    accuracy/top1: 42.0440  accuracy/top5: 83.6999  data_time: 0.0094  time: 0.0903
+2023/06/08 16:57:20 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:57:20 - mmengine - INFO - Epoch(train)  [98][37/37]  lr: 5.8476e-01  eta: 0:23:21  time: 0.2031  data_time: 0.0003  memory: 8251  loss: 2.7243
+2023/06/08 16:57:22 - mmengine - INFO - Epoch(val) [98][25/25]    accuracy/top1: 46.9599  accuracy/top5: 83.6352  data_time: 0.0105  time: 0.0922
+2023/06/08 16:57:30 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:57:30 - mmengine - INFO - Epoch(train)  [99][37/37]  lr: 5.8054e-01  eta: 0:23:13  time: 0.2037  data_time: 0.0003  memory: 8251  loss: 2.7491
+2023/06/08 16:57:33 - mmengine - INFO - Epoch(val) [99][25/25]    accuracy/top1: 41.7206  accuracy/top5: 83.5705  data_time: 0.0093  time: 0.0910
+2023/06/08 16:57:41 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:57:41 - mmengine - INFO - Epoch(train) [100][37/37]  lr: 5.7629e-01  eta: 0:23:06  time: 0.2029  data_time: 0.0003  memory: 8251  loss: 2.9275
+2023/06/08 16:57:41 - mmengine - INFO - Saving checkpoint at 100 epochs
+2023/06/08 16:57:44 - mmengine - INFO - Epoch(val) [100][25/25]    accuracy/top1: 43.4670  accuracy/top5: 81.0479  data_time: 0.0094  time: 0.0909
+2023/06/08 16:57:52 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:57:52 - mmengine - INFO - Epoch(train) [101][37/37]  lr: 5.7203e-01  eta: 0:22:58  time: 0.2038  data_time: 0.0004  memory: 8251  loss: 2.7729
+2023/06/08 16:57:55 - mmengine - INFO - Epoch(val) [101][25/25]    accuracy/top1: 41.0737  accuracy/top5: 81.9534  data_time: 0.0094  time: 0.0862
+2023/06/08 16:58:03 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:58:03 - mmengine - INFO - Epoch(train) [102][37/37]  lr: 5.6773e-01  eta: 0:22:50  time: 0.2035  data_time: 0.0003  memory: 8251  loss: 2.5996
+2023/06/08 16:58:05 - mmengine - INFO - Epoch(val) [102][25/25]    accuracy/top1: 38.4217  accuracy/top5: 81.3066  data_time: 0.0094  time: 0.0906
+2023/06/08 16:58:14 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:58:14 - mmengine - INFO - Epoch(train) [103][37/37]  lr: 5.6342e-01  eta: 0:22:42  time: 0.2021  data_time: 0.0003  memory: 8251  loss: 2.7239
+2023/06/08 16:58:16 - mmengine - INFO - Epoch(val) [103][25/25]    accuracy/top1: 42.1087  accuracy/top5: 79.8836  data_time: 0.0095  time: 0.0912
+2023/06/08 16:58:25 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:58:25 - mmengine - INFO - Epoch(train) [104][37/37]  lr: 5.5908e-01  eta: 0:22:35  time: 0.2017  data_time: 0.0003  memory: 8251  loss: 2.6108
+2023/06/08 16:58:27 - mmengine - INFO - Epoch(val) [104][25/25]    accuracy/top1: 45.0841  accuracy/top5: 84.0880  data_time: 0.0094  time: 0.0906
+2023/06/08 16:58:35 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:58:35 - mmengine - INFO - Epoch(train) [105][37/37]  lr: 5.5471e-01  eta: 0:22:27  time: 0.2010  data_time: 0.0002  memory: 8251  loss: 2.7902
+2023/06/08 16:58:38 - mmengine - INFO - Epoch(val) [105][25/25]    accuracy/top1: 46.5071  accuracy/top5: 84.8642  data_time: 0.0096  time: 0.0909
+2023/06/08 16:58:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:58:46 - mmengine - INFO - Epoch(train) [106][37/37]  lr: 5.5033e-01  eta: 0:22:19  time: 0.2041  data_time: 0.0003  memory: 8251  loss: 2.6748
+2023/06/08 16:58:48 - mmengine - INFO - Epoch(val) [106][25/25]    accuracy/top1: 39.8448  accuracy/top5: 81.2419  data_time: 0.0096  time: 0.0913
+2023/06/08 16:58:57 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:58:57 - mmengine - INFO - Epoch(train) [107][37/37]  lr: 5.4593e-01  eta: 0:22:11  time: 0.2018  data_time: 0.0002  memory: 8251  loss: 2.6995
+2023/06/08 16:58:59 - mmengine - INFO - Epoch(val) [107][25/25]    accuracy/top1: 43.6611  accuracy/top5: 83.1824  data_time: 0.0095  time: 0.0904
+2023/06/08 16:59:08 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:59:08 - mmengine - INFO - Epoch(train) [108][37/37]  lr: 5.4150e-01  eta: 0:22:04  time: 0.2012  data_time: 0.0003  memory: 8251  loss: 2.7374
+2023/06/08 16:59:10 - mmengine - INFO - Epoch(val) [108][25/25]    accuracy/top1: 43.4670  accuracy/top5: 83.8939  data_time: 0.0092  time: 0.0901
+2023/06/08 16:59:11 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:59:18 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:59:18 - mmengine - INFO - Epoch(train) [109][37/37]  lr: 5.3706e-01  eta: 0:21:56  time: 0.2012  data_time: 0.0002  memory: 8251  loss: 2.9086
+2023/06/08 16:59:21 - mmengine - INFO - Epoch(val) [109][25/25]    accuracy/top1: 47.9948  accuracy/top5: 83.3118  data_time: 0.0096  time: 0.0908
+2023/06/08 16:59:29 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:59:29 - mmengine - INFO - Epoch(train) [110][37/37]  lr: 5.3259e-01  eta: 0:21:48  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 2.7581
+2023/06/08 16:59:31 - mmengine - INFO - Epoch(val) [110][25/25]    accuracy/top1: 44.8900  accuracy/top5: 82.0181  data_time: 0.0093  time: 0.0904
+2023/06/08 16:59:40 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:59:40 - mmengine - INFO - Epoch(train) [111][37/37]  lr: 5.2811e-01  eta: 0:21:40  time: 0.2044  data_time: 0.0003  memory: 8251  loss: 2.7069
+2023/06/08 16:59:42 - mmengine - INFO - Epoch(val) [111][25/25]    accuracy/top1: 47.9301  accuracy/top5: 84.5407  data_time: 0.0093  time: 0.0908
+2023/06/08 16:59:51 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 16:59:51 - mmengine - INFO - Epoch(train) [112][37/37]  lr: 5.2361e-01  eta: 0:21:32  time: 0.2027  data_time: 0.0004  memory: 8251  loss: 2.7027
+2023/06/08 16:59:53 - mmengine - INFO - Epoch(val) [112][25/25]    accuracy/top1: 46.9599  accuracy/top5: 85.7697  data_time: 0.0099  time: 0.0911
+2023/06/08 17:00:01 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:00:01 - mmengine - INFO - Epoch(train) [113][37/37]  lr: 5.1909e-01  eta: 0:21:24  time: 0.2028  data_time: 0.0004  memory: 8251  loss: 2.6149
+2023/06/08 17:00:04 - mmengine - INFO - Epoch(val) [113][25/25]    accuracy/top1: 38.0983  accuracy/top5: 80.6598  data_time: 0.0095  time: 0.0907
+2023/06/08 17:00:12 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:00:12 - mmengine - INFO - Epoch(train) [114][37/37]  lr: 5.1455e-01  eta: 0:21:17  time: 0.2026  data_time: 0.0003  memory: 8251  loss: 2.8114
+2023/06/08 17:00:14 - mmengine - INFO - Epoch(val) [114][25/25]    accuracy/top1: 42.2380  accuracy/top5: 81.4360  data_time: 0.0091  time: 0.0926
+2023/06/08 17:00:23 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:00:23 - mmengine - INFO - Epoch(train) [115][37/37]  lr: 5.1000e-01  eta: 0:21:09  time: 0.2025  data_time: 0.0004  memory: 8251  loss: 2.7688
+2023/06/08 17:00:25 - mmengine - INFO - Epoch(val) [115][25/25]    accuracy/top1: 49.8060  accuracy/top5: 86.8693  data_time: 0.0094  time: 0.0905
+2023/06/08 17:00:34 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:00:34 - mmengine - INFO - Epoch(train) [116][37/37]  lr: 5.0543e-01  eta: 0:21:01  time: 0.2020  data_time: 0.0004  memory: 8251  loss: 2.6609
+2023/06/08 17:00:36 - mmengine - INFO - Epoch(val) [116][25/25]    accuracy/top1: 39.3273  accuracy/top5: 76.5847  data_time: 0.0097  time: 0.0910
+2023/06/08 17:00:44 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:00:44 - mmengine - INFO - Epoch(train) [117][37/37]  lr: 5.0085e-01  eta: 0:20:53  time: 0.2023  data_time: 0.0004  memory: 8251  loss: 2.7305
+2023/06/08 17:00:47 - mmengine - INFO - Epoch(val) [117][25/25]    accuracy/top1: 46.8952  accuracy/top5: 85.5110  data_time: 0.0093  time: 0.0908
+2023/06/08 17:00:55 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:00:55 - mmengine - INFO - Epoch(train) [118][37/37]  lr: 4.9626e-01  eta: 0:20:45  time: 0.2030  data_time: 0.0004  memory: 8251  loss: 2.8050
+2023/06/08 17:00:57 - mmengine - INFO - Epoch(val) [118][25/25]    accuracy/top1: 47.5420  accuracy/top5: 84.1526  data_time: 0.0097  time: 0.0913
+2023/06/08 17:01:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:01:06 - mmengine - INFO - Epoch(train) [119][37/37]  lr: 4.9165e-01  eta: 0:20:37  time: 0.2025  data_time: 0.0003  memory: 8251  loss: 2.8164
+2023/06/08 17:01:08 - mmengine - INFO - Epoch(val) [119][25/25]    accuracy/top1: 49.6119  accuracy/top5: 84.4114  data_time: 0.0094  time: 0.0909
+2023/06/08 17:01:17 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:01:17 - mmengine - INFO - Epoch(train) [120][37/37]  lr: 4.8703e-01  eta: 0:20:29  time: 0.2025  data_time: 0.0003  memory: 8251  loss: 2.5553
+2023/06/08 17:01:19 - mmengine - INFO - Epoch(val) [120][25/25]    accuracy/top1: 51.5524  accuracy/top5: 87.3868  data_time: 0.0094  time: 0.0907
+2023/06/08 17:01:27 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:01:27 - mmengine - INFO - Epoch(train) [121][37/37]  lr: 4.8239e-01  eta: 0:20:21  time: 0.2029  data_time: 0.0003  memory: 8251  loss: 2.6482
+2023/06/08 17:01:30 - mmengine - INFO - Epoch(val) [121][25/25]    accuracy/top1: 51.3583  accuracy/top5: 87.1927  data_time: 0.0093  time: 0.0905
+2023/06/08 17:01:38 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:01:38 - mmengine - INFO - Epoch(train) [122][37/37]  lr: 4.7775e-01  eta: 0:20:13  time: 0.2024  data_time: 0.0003  memory: 8251  loss: 2.4913
+2023/06/08 17:01:40 - mmengine - INFO - Epoch(val) [122][25/25]    accuracy/top1: 43.2730  accuracy/top5: 80.7891  data_time: 0.0096  time: 0.0911
+2023/06/08 17:01:49 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:01:49 - mmengine - INFO - Epoch(train) [123][37/37]  lr: 4.7309e-01  eta: 0:20:05  time: 0.2026  data_time: 0.0003  memory: 8251  loss: 2.6952
+2023/06/08 17:01:51 - mmengine - INFO - Epoch(val) [123][25/25]    accuracy/top1: 48.0595  accuracy/top5: 85.2523  data_time: 0.0095  time: 0.0906
+2023/06/08 17:01:59 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:01:59 - mmengine - INFO - Epoch(train) [124][37/37]  lr: 4.6842e-01  eta: 0:19:57  time: 0.2030  data_time: 0.0004  memory: 8251  loss: 2.6625
+2023/06/08 17:02:02 - mmengine - INFO - Epoch(val) [124][25/25]    accuracy/top1: 52.5226  accuracy/top5: 86.4812  data_time: 0.0097  time: 0.0915
+2023/06/08 17:02:10 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:02:10 - mmengine - INFO - Epoch(train) [125][37/37]  lr: 4.6374e-01  eta: 0:19:49  time: 0.2022  data_time: 0.0003  memory: 8251  loss: 2.5532
+2023/06/08 17:02:13 - mmengine - INFO - Epoch(val) [125][25/25]    accuracy/top1: 54.9159  accuracy/top5: 89.6507  data_time: 0.0097  time: 0.0912
+2023/06/08 17:02:21 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:02:21 - mmengine - INFO - Epoch(train) [126][37/37]  lr: 4.5906e-01  eta: 0:19:41  time: 0.2025  data_time: 0.0004  memory: 8251  loss: 2.6781
+2023/06/08 17:02:23 - mmengine - INFO - Epoch(val) [126][25/25]    accuracy/top1: 49.0298  accuracy/top5: 86.2872  data_time: 0.0094  time: 0.0910
+2023/06/08 17:02:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:02:32 - mmengine - INFO - Epoch(train) [127][37/37]  lr: 4.5436e-01  eta: 0:19:33  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 2.4026
+2023/06/08 17:02:34 - mmengine - INFO - Epoch(val) [127][25/25]    accuracy/top1: 47.5420  accuracy/top5: 83.6999  data_time: 0.0094  time: 0.0930
+2023/06/08 17:02:43 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:02:43 - mmengine - INFO - Epoch(train) [128][37/37]  lr: 4.4966e-01  eta: 0:19:25  time: 0.2022  data_time: 0.0004  memory: 8251  loss: 2.5562
+2023/06/08 17:02:45 - mmengine - INFO - Epoch(val) [128][25/25]    accuracy/top1: 48.4476  accuracy/top5: 85.8344  data_time: 0.0094  time: 0.0904
+2023/06/08 17:02:53 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:02:53 - mmengine - INFO - Epoch(train) [129][37/37]  lr: 4.4495e-01  eta: 0:19:17  time: 0.2019  data_time: 0.0004  memory: 8251  loss: 2.5967
+2023/06/08 17:02:56 - mmengine - INFO - Epoch(val) [129][25/25]    accuracy/top1: 45.8603  accuracy/top5: 83.2471  data_time: 0.0094  time: 0.0908
+2023/06/08 17:03:04 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:03:04 - mmengine - INFO - Epoch(train) [130][37/37]  lr: 4.4024e-01  eta: 0:19:09  time: 0.2016  data_time: 0.0002  memory: 8251  loss: 2.7095
+2023/06/08 17:03:06 - mmengine - INFO - Epoch(val) [130][25/25]    accuracy/top1: 44.5019  accuracy/top5: 83.7645  data_time: 0.0094  time: 0.0905
+2023/06/08 17:03:15 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:03:15 - mmengine - INFO - Epoch(train) [131][37/37]  lr: 4.3552e-01  eta: 0:19:01  time: 0.2017  data_time: 0.0003  memory: 8251  loss: 2.6175
+2023/06/08 17:03:17 - mmengine - INFO - Epoch(val) [131][25/25]    accuracy/top1: 56.9858  accuracy/top5: 89.9741  data_time: 0.0097  time: 0.0906
+2023/06/08 17:03:25 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:03:25 - mmengine - INFO - Epoch(train) [132][37/37]  lr: 4.3079e-01  eta: 0:18:53  time: 0.2026  data_time: 0.0003  memory: 8251  loss: 2.5207
+2023/06/08 17:03:28 - mmengine - INFO - Epoch(val) [132][25/25]    accuracy/top1: 54.3338  accuracy/top5: 88.0983  data_time: 0.0092  time: 0.0900
+2023/06/08 17:03:36 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:03:36 - mmengine - INFO - Epoch(train) [133][37/37]  lr: 4.2606e-01  eta: 0:18:45  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 2.5204
+2023/06/08 17:03:38 - mmengine - INFO - Epoch(val) [133][25/25]    accuracy/top1: 56.0155  accuracy/top5: 90.1035  data_time: 0.0095  time: 0.0906
+2023/06/08 17:03:47 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:03:47 - mmengine - INFO - Epoch(train) [134][37/37]  lr: 4.2133e-01  eta: 0:18:37  time: 0.2016  data_time: 0.0002  memory: 8251  loss: 2.6040
+2023/06/08 17:03:49 - mmengine - INFO - Epoch(val) [134][25/25]    accuracy/top1: 52.3286  accuracy/top5: 88.2277  data_time: 0.0095  time: 0.0906
+2023/06/08 17:03:57 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:03:57 - mmengine - INFO - Epoch(train) [135][37/37]  lr: 4.1659e-01  eta: 0:18:29  time: 0.2022  data_time: 0.0003  memory: 8251  loss: 2.5891
+2023/06/08 17:04:00 - mmengine - INFO - Epoch(val) [135][25/25]    accuracy/top1: 51.7464  accuracy/top5: 87.9043  data_time: 0.0096  time: 0.0904
+2023/06/08 17:04:01 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:04:08 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:04:08 - mmengine - INFO - Epoch(train) [136][37/37]  lr: 4.1185e-01  eta: 0:18:21  time: 0.2019  data_time: 0.0003  memory: 8251  loss: 2.4107
+2023/06/08 17:04:11 - mmengine - INFO - Epoch(val) [136][25/25]    accuracy/top1: 45.6016  accuracy/top5: 81.5653  data_time: 0.0092  time: 0.0904
+2023/06/08 17:04:19 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:04:19 - mmengine - INFO - Epoch(train) [137][37/37]  lr: 4.0711e-01  eta: 0:18:13  time: 0.2006  data_time: 0.0002  memory: 8251  loss: 2.5991
+2023/06/08 17:04:21 - mmengine - INFO - Epoch(val) [137][25/25]    accuracy/top1: 56.2743  accuracy/top5: 90.0388  data_time: 0.0093  time: 0.0901
+2023/06/08 17:04:30 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:04:30 - mmengine - INFO - Epoch(train) [138][37/37]  lr: 4.0237e-01  eta: 0:18:05  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 2.4664
+2023/06/08 17:04:32 - mmengine - INFO - Epoch(val) [138][25/25]    accuracy/top1: 55.6274  accuracy/top5: 89.5213  data_time: 0.0091  time: 0.0897
+2023/06/08 17:04:40 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:04:40 - mmengine - INFO - Epoch(train) [139][37/37]  lr: 3.9763e-01  eta: 0:17:57  time: 0.2014  data_time: 0.0003  memory: 8251  loss: 2.5146
+2023/06/08 17:04:43 - mmengine - INFO - Epoch(val) [139][25/25]    accuracy/top1: 50.7762  accuracy/top5: 88.7451  data_time: 0.0098  time: 0.0908
+2023/06/08 17:04:51 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:04:51 - mmengine - INFO - Epoch(train) [140][37/37]  lr: 3.9289e-01  eta: 0:17:48  time: 0.2016  data_time: 0.0004  memory: 8251  loss: 2.3825
+2023/06/08 17:04:53 - mmengine - INFO - Epoch(val) [140][25/25]    accuracy/top1: 55.2393  accuracy/top5: 88.7451  data_time: 0.0092  time: 0.0903
+2023/06/08 17:05:02 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:05:02 - mmengine - INFO - Epoch(train) [141][37/37]  lr: 3.8815e-01  eta: 0:17:40  time: 0.2019  data_time: 0.0003  memory: 8251  loss: 2.5294
+2023/06/08 17:05:04 - mmengine - INFO - Epoch(val) [141][25/25]    accuracy/top1: 53.1695  accuracy/top5: 88.7451  data_time: 0.0093  time: 0.0903
+2023/06/08 17:05:12 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:05:12 - mmengine - INFO - Epoch(train) [142][37/37]  lr: 3.8341e-01  eta: 0:17:32  time: 0.2011  data_time: 0.0004  memory: 8251  loss: 2.3035
+2023/06/08 17:05:15 - mmengine - INFO - Epoch(val) [142][25/25]    accuracy/top1: 57.7620  accuracy/top5: 89.7801  data_time: 0.0093  time: 0.0903
+2023/06/08 17:05:23 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:05:23 - mmengine - INFO - Epoch(train) [143][37/37]  lr: 3.7867e-01  eta: 0:17:24  time: 0.2018  data_time: 0.0004  memory: 8251  loss: 2.3192
+2023/06/08 17:05:25 - mmengine - INFO - Epoch(val) [143][25/25]    accuracy/top1: 59.5731  accuracy/top5: 91.3325  data_time: 0.0095  time: 0.0926
+2023/06/08 17:05:34 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:05:34 - mmengine - INFO - Epoch(train) [144][37/37]  lr: 3.7394e-01  eta: 0:17:16  time: 0.2020  data_time: 0.0003  memory: 8251  loss: 2.6762
+2023/06/08 17:05:36 - mmengine - INFO - Epoch(val) [144][25/25]    accuracy/top1: 59.8318  accuracy/top5: 89.3273  data_time: 0.0092  time: 0.0902
+2023/06/08 17:05:44 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:05:44 - mmengine - INFO - Epoch(train) [145][37/37]  lr: 3.6921e-01  eta: 0:17:08  time: 0.2006  data_time: 0.0003  memory: 8251  loss: 2.6436
+2023/06/08 17:05:47 - mmengine - INFO - Epoch(val) [145][25/25]    accuracy/top1: 57.8266  accuracy/top5: 90.6210  data_time: 0.0093  time: 0.0902
+2023/06/08 17:05:55 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:05:55 - mmengine - INFO - Epoch(train) [146][37/37]  lr: 3.6448e-01  eta: 0:17:00  time: 0.2019  data_time: 0.0003  memory: 8251  loss: 2.3000
+2023/06/08 17:05:57 - mmengine - INFO - Epoch(val) [146][25/25]    accuracy/top1: 60.7374  accuracy/top5: 91.3971  data_time: 0.0092  time: 0.0903
+2023/06/08 17:06:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:06:06 - mmengine - INFO - Epoch(train) [147][37/37]  lr: 3.5976e-01  eta: 0:16:52  time: 0.2015  data_time: 0.0003  memory: 8251  loss: 2.3282
+2023/06/08 17:06:08 - mmengine - INFO - Epoch(val) [147][25/25]    accuracy/top1: 60.1552  accuracy/top5: 91.3325  data_time: 0.0095  time: 0.0907
+2023/06/08 17:06:16 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:06:16 - mmengine - INFO - Epoch(train) [148][37/37]  lr: 3.5505e-01  eta: 0:16:44  time: 0.2011  data_time: 0.0003  memory: 8251  loss: 2.2449
+2023/06/08 17:06:19 - mmengine - INFO - Epoch(val) [148][25/25]    accuracy/top1: 59.3790  accuracy/top5: 91.2031  data_time: 0.0096  time: 0.0904
+2023/06/08 17:06:27 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:06:27 - mmengine - INFO - Epoch(train) [149][37/37]  lr: 3.5034e-01  eta: 0:16:35  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 2.3283
+2023/06/08 17:06:29 - mmengine - INFO - Epoch(val) [149][25/25]    accuracy/top1: 61.5783  accuracy/top5: 91.1384  data_time: 0.0093  time: 0.0905
+2023/06/08 17:06:38 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:06:38 - mmengine - INFO - Epoch(train) [150][37/37]  lr: 3.4564e-01  eta: 0:16:27  time: 0.2008  data_time: 0.0004  memory: 8251  loss: 2.6010
+2023/06/08 17:06:38 - mmengine - INFO - Saving checkpoint at 150 epochs
+2023/06/08 17:06:41 - mmengine - INFO - Epoch(val) [150][25/25]    accuracy/top1: 55.7568  accuracy/top5: 89.5860  data_time: 0.0124  time: 0.0933
+2023/06/08 17:06:49 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:06:49 - mmengine - INFO - Epoch(train) [151][37/37]  lr: 3.4094e-01  eta: 0:16:19  time: 0.2019  data_time: 0.0004  memory: 8251  loss: 2.3638
+2023/06/08 17:06:51 - mmengine - INFO - Epoch(val) [151][25/25]    accuracy/top1: 64.3596  accuracy/top5: 92.6261  data_time: 0.0094  time: 0.0905
+2023/06/08 17:07:00 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:07:00 - mmengine - INFO - Epoch(train) [152][37/37]  lr: 3.3626e-01  eta: 0:16:11  time: 0.2022  data_time: 0.0004  memory: 8251  loss: 2.4418
+2023/06/08 17:07:02 - mmengine - INFO - Epoch(val) [152][25/25]    accuracy/top1: 59.7671  accuracy/top5: 92.4968  data_time: 0.0098  time: 0.0910
+2023/06/08 17:07:10 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:07:10 - mmengine - INFO - Epoch(train) [153][37/37]  lr: 3.3158e-01  eta: 0:16:03  time: 0.2016  data_time: 0.0004  memory: 8251  loss: 2.4253
+2023/06/08 17:07:13 - mmengine - INFO - Epoch(val) [153][25/25]    accuracy/top1: 64.2950  accuracy/top5: 91.9793  data_time: 0.0093  time: 0.0904
+2023/06/08 17:07:21 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:07:21 - mmengine - INFO - Epoch(train) [154][37/37]  lr: 3.2691e-01  eta: 0:15:55  time: 0.2013  data_time: 0.0003  memory: 8251  loss: 2.2807
+2023/06/08 17:07:23 - mmengine - INFO - Epoch(val) [154][25/25]    accuracy/top1: 64.1009  accuracy/top5: 92.2380  data_time: 0.0094  time: 0.0904
+2023/06/08 17:07:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:07:32 - mmengine - INFO - Epoch(train) [155][37/37]  lr: 3.2225e-01  eta: 0:15:47  time: 0.2021  data_time: 0.0003  memory: 8251  loss: 2.5088
+2023/06/08 17:07:34 - mmengine - INFO - Epoch(val) [155][25/25]    accuracy/top1: 61.4489  accuracy/top5: 91.3325  data_time: 0.0095  time: 0.0906
+2023/06/08 17:07:42 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:07:42 - mmengine - INFO - Epoch(train) [156][37/37]  lr: 3.1761e-01  eta: 0:15:38  time: 0.2015  data_time: 0.0003  memory: 8251  loss: 2.3725
+2023/06/08 17:07:45 - mmengine - INFO - Epoch(val) [156][25/25]    accuracy/top1: 63.6481  accuracy/top5: 93.2730  data_time: 0.0097  time: 0.0906
+2023/06/08 17:07:53 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:07:53 - mmengine - INFO - Epoch(train) [157][37/37]  lr: 3.1297e-01  eta: 0:15:30  time: 0.2008  data_time: 0.0004  memory: 8251  loss: 2.3723
+2023/06/08 17:07:55 - mmengine - INFO - Epoch(val) [157][25/25]    accuracy/top1: 60.4140  accuracy/top5: 90.4269  data_time: 0.0093  time: 0.0904
+2023/06/08 17:08:04 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:08:04 - mmengine - INFO - Epoch(train) [158][37/37]  lr: 3.0835e-01  eta: 0:15:22  time: 0.2017  data_time: 0.0003  memory: 8251  loss: 2.4027
+2023/06/08 17:08:06 - mmengine - INFO - Epoch(val) [158][25/25]    accuracy/top1: 63.5834  accuracy/top5: 91.9146  data_time: 0.0095  time: 0.0903
+2023/06/08 17:08:15 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:08:15 - mmengine - INFO - Epoch(train) [159][37/37]  lr: 3.0374e-01  eta: 0:15:14  time: 0.2008  data_time: 0.0003  memory: 8251  loss: 2.5239
+2023/06/08 17:08:17 - mmengine - INFO - Epoch(val) [159][25/25]    accuracy/top1: 62.4838  accuracy/top5: 90.6856  data_time: 0.0095  time: 0.0904
+2023/06/08 17:08:25 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:08:25 - mmengine - INFO - Epoch(train) [160][37/37]  lr: 2.9915e-01  eta: 0:15:06  time: 0.2009  data_time: 0.0002  memory: 8251  loss: 2.4013
+2023/06/08 17:08:27 - mmengine - INFO - Epoch(val) [160][25/25]    accuracy/top1: 64.3596  accuracy/top5: 93.1436  data_time: 0.0092  time: 0.0897
+2023/06/08 17:08:36 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:08:36 - mmengine - INFO - Epoch(train) [161][37/37]  lr: 2.9457e-01  eta: 0:14:58  time: 0.2006  data_time: 0.0002  memory: 8251  loss: 2.2788
+2023/06/08 17:08:38 - mmengine - INFO - Epoch(val) [161][25/25]    accuracy/top1: 62.6132  accuracy/top5: 92.3674  data_time: 0.0092  time: 0.0897
+2023/06/08 17:08:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:08:46 - mmengine - INFO - Epoch(train) [162][37/37]  lr: 2.9000e-01  eta: 0:14:49  time: 0.2008  data_time: 0.0003  memory: 8251  loss: 2.5358
+2023/06/08 17:08:49 - mmengine - INFO - Epoch(val) [162][25/25]    accuracy/top1: 63.0660  accuracy/top5: 91.6559  data_time: 0.0098  time: 0.0903
+2023/06/08 17:08:51 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:08:57 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:08:57 - mmengine - INFO - Epoch(train) [163][37/37]  lr: 2.8545e-01  eta: 0:14:41  time: 0.2011  data_time: 0.0003  memory: 8251  loss: 2.2697
+2023/06/08 17:09:00 - mmengine - INFO - Epoch(val) [163][25/25]    accuracy/top1: 66.0414  accuracy/top5: 93.9845  data_time: 0.0100  time: 0.0909
+2023/06/08 17:09:08 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:09:08 - mmengine - INFO - Epoch(train) [164][37/37]  lr: 2.8091e-01  eta: 0:14:33  time: 0.2005  data_time: 0.0003  memory: 8251  loss: 2.1502
+2023/06/08 17:09:10 - mmengine - INFO - Epoch(val) [164][25/25]    accuracy/top1: 64.6184  accuracy/top5: 92.4321  data_time: 0.0098  time: 0.0905
+2023/06/08 17:09:19 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:09:19 - mmengine - INFO - Epoch(train) [165][37/37]  lr: 2.7639e-01  eta: 0:14:25  time: 0.2007  data_time: 0.0003  memory: 8251  loss: 2.4128
+2023/06/08 17:09:21 - mmengine - INFO - Epoch(val) [165][25/25]    accuracy/top1: 65.5239  accuracy/top5: 93.0789  data_time: 0.0094  time: 0.0900
+2023/06/08 17:09:29 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:09:29 - mmengine - INFO - Epoch(train) [166][37/37]  lr: 2.7189e-01  eta: 0:14:17  time: 0.2005  data_time: 0.0003  memory: 8251  loss: 2.1793
+2023/06/08 17:09:32 - mmengine - INFO - Epoch(val) [166][25/25]    accuracy/top1: 62.9366  accuracy/top5: 91.2678  data_time: 0.0094  time: 0.0898
+2023/06/08 17:09:40 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:09:40 - mmengine - INFO - Epoch(train) [167][37/37]  lr: 2.6741e-01  eta: 0:14:09  time: 0.2013  data_time: 0.0003  memory: 8251  loss: 2.1518
+2023/06/08 17:09:42 - mmengine - INFO - Epoch(val) [167][25/25]    accuracy/top1: 59.3790  accuracy/top5: 90.6856  data_time: 0.0091  time: 0.0897
+2023/06/08 17:09:50 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:09:50 - mmengine - INFO - Epoch(train) [168][37/37]  lr: 2.6294e-01  eta: 0:14:00  time: 0.2014  data_time: 0.0003  memory: 8251  loss: 2.2082
+2023/06/08 17:09:53 - mmengine - INFO - Epoch(val) [168][25/25]    accuracy/top1: 67.4644  accuracy/top5: 93.3376  data_time: 0.0095  time: 0.0902
+2023/06/08 17:10:01 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:10:01 - mmengine - INFO - Epoch(train) [169][37/37]  lr: 2.5850e-01  eta: 0:13:52  time: 0.2005  data_time: 0.0003  memory: 8251  loss: 2.3157
+2023/06/08 17:10:03 - mmengine - INFO - Epoch(val) [169][25/25]    accuracy/top1: 67.3997  accuracy/top5: 93.2083  data_time: 0.0094  time: 0.0902
+2023/06/08 17:10:12 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:10:12 - mmengine - INFO - Epoch(train) [170][37/37]  lr: 2.5407e-01  eta: 0:13:44  time: 0.2011  data_time: 0.0003  memory: 8251  loss: 2.3545
+2023/06/08 17:10:14 - mmengine - INFO - Epoch(val) [170][25/25]    accuracy/top1: 66.0414  accuracy/top5: 93.5317  data_time: 0.0095  time: 0.0906
+2023/06/08 17:10:22 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:10:22 - mmengine - INFO - Epoch(train) [171][37/37]  lr: 2.4967e-01  eta: 0:13:36  time: 0.2006  data_time: 0.0003  memory: 8251  loss: 2.4830
+2023/06/08 17:10:25 - mmengine - INFO - Epoch(val) [171][25/25]    accuracy/top1: 60.7374  accuracy/top5: 91.1384  data_time: 0.0097  time: 0.0902
+2023/06/08 17:10:33 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:10:33 - mmengine - INFO - Epoch(train) [172][37/37]  lr: 2.4529e-01  eta: 0:13:28  time: 0.2002  data_time: 0.0003  memory: 8251  loss: 2.0504
+2023/06/08 17:10:35 - mmengine - INFO - Epoch(val) [172][25/25]    accuracy/top1: 66.2354  accuracy/top5: 92.4321  data_time: 0.0092  time: 0.0900
+2023/06/08 17:10:44 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:10:44 - mmengine - INFO - Epoch(train) [173][37/37]  lr: 2.4092e-01  eta: 0:13:19  time: 0.2010  data_time: 0.0002  memory: 8251  loss: 2.2160
+2023/06/08 17:10:46 - mmengine - INFO - Epoch(val) [173][25/25]    accuracy/top1: 68.4347  accuracy/top5: 94.0492  data_time: 0.0095  time: 0.0900
+2023/06/08 17:10:55 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:10:55 - mmengine - INFO - Epoch(train) [174][37/37]  lr: 2.3658e-01  eta: 0:13:11  time: 0.2029  data_time: 0.0004  memory: 8251  loss: 2.2041
+2023/06/08 17:10:57 - mmengine - INFO - Epoch(val) [174][25/25]    accuracy/top1: 68.3053  accuracy/top5: 93.8551  data_time: 0.0096  time: 0.0914
+2023/06/08 17:11:05 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:11:05 - mmengine - INFO - Epoch(train) [175][37/37]  lr: 2.3227e-01  eta: 0:13:03  time: 0.2036  data_time: 0.0004  memory: 8251  loss: 2.2977
+2023/06/08 17:11:08 - mmengine - INFO - Epoch(val) [175][25/25]    accuracy/top1: 68.4347  accuracy/top5: 93.6611  data_time: 0.0102  time: 0.0921
+2023/06/08 17:11:16 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:11:16 - mmengine - INFO - Epoch(train) [176][37/37]  lr: 2.2797e-01  eta: 0:12:55  time: 0.2007  data_time: 0.0003  memory: 8251  loss: 2.1118
+2023/06/08 17:11:18 - mmengine - INFO - Epoch(val) [176][25/25]    accuracy/top1: 69.3402  accuracy/top5: 94.5666  data_time: 0.0096  time: 0.0928
+2023/06/08 17:11:27 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:11:27 - mmengine - INFO - Epoch(train) [177][37/37]  lr: 2.2371e-01  eta: 0:12:47  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 2.2948
+2023/06/08 17:11:29 - mmengine - INFO - Epoch(val) [177][25/25]    accuracy/top1: 71.0220  accuracy/top5: 94.6313  data_time: 0.0094  time: 0.0903
+2023/06/08 17:11:37 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:11:37 - mmengine - INFO - Epoch(train) [178][37/37]  lr: 2.1946e-01  eta: 0:12:39  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 2.2625
+2023/06/08 17:11:40 - mmengine - INFO - Epoch(val) [178][25/25]    accuracy/top1: 67.8525  accuracy/top5: 93.5964  data_time: 0.0093  time: 0.0901
+2023/06/08 17:11:48 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:11:48 - mmengine - INFO - Epoch(train) [179][37/37]  lr: 2.1524e-01  eta: 0:12:30  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 2.1450
+2023/06/08 17:11:50 - mmengine - INFO - Epoch(val) [179][25/25]    accuracy/top1: 60.6080  accuracy/top5: 91.1384  data_time: 0.0102  time: 0.0907
+2023/06/08 17:11:59 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:11:59 - mmengine - INFO - Epoch(train) [180][37/37]  lr: 2.1105e-01  eta: 0:12:22  time: 0.2003  data_time: 0.0003  memory: 8251  loss: 2.0837
+2023/06/08 17:12:01 - mmengine - INFO - Epoch(val) [180][25/25]    accuracy/top1: 69.3402  accuracy/top5: 93.9198  data_time: 0.0094  time: 0.0901
+2023/06/08 17:12:09 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:12:09 - mmengine - INFO - Epoch(train) [181][37/37]  lr: 2.0688e-01  eta: 0:12:14  time: 0.2012  data_time: 0.0003  memory: 8251  loss: 2.2399
+2023/06/08 17:12:12 - mmengine - INFO - Epoch(val) [181][25/25]    accuracy/top1: 68.1759  accuracy/top5: 94.3079  data_time: 0.0095  time: 0.0904
+2023/06/08 17:12:20 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:12:20 - mmengine - INFO - Epoch(train) [182][37/37]  lr: 2.0274e-01  eta: 0:12:06  time: 0.2013  data_time: 0.0003  memory: 8251  loss: 2.2057
+2023/06/08 17:12:22 - mmengine - INFO - Epoch(val) [182][25/25]    accuracy/top1: 70.3105  accuracy/top5: 95.4075  data_time: 0.0099  time: 0.0904
+2023/06/08 17:12:31 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:12:31 - mmengine - INFO - Epoch(train) [183][37/37]  lr: 1.9863e-01  eta: 0:11:57  time: 0.2013  data_time: 0.0003  memory: 8251  loss: 2.3471
+2023/06/08 17:12:33 - mmengine - INFO - Epoch(val) [183][25/25]    accuracy/top1: 68.6934  accuracy/top5: 93.6611  data_time: 0.0090  time: 0.0896
+2023/06/08 17:12:41 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:12:41 - mmengine - INFO - Epoch(train) [184][37/37]  lr: 1.9455e-01  eta: 0:11:49  time: 0.2003  data_time: 0.0003  memory: 8251  loss: 1.9719
+2023/06/08 17:12:44 - mmengine - INFO - Epoch(val) [184][25/25]    accuracy/top1: 68.1759  accuracy/top5: 93.6611  data_time: 0.0090  time: 0.0896
+2023/06/08 17:12:52 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:12:52 - mmengine - INFO - Epoch(train) [185][37/37]  lr: 1.9050e-01  eta: 0:11:41  time: 0.2006  data_time: 0.0003  memory: 8251  loss: 2.4458
+2023/06/08 17:12:54 - mmengine - INFO - Epoch(val) [185][25/25]    accuracy/top1: 69.6636  accuracy/top5: 93.9845  data_time: 0.0098  time: 0.0904
+2023/06/08 17:13:03 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:13:03 - mmengine - INFO - Epoch(train) [186][37/37]  lr: 1.8647e-01  eta: 0:11:33  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 2.1279
+2023/06/08 17:13:05 - mmengine - INFO - Epoch(val) [186][25/25]    accuracy/top1: 69.9871  accuracy/top5: 94.4373  data_time: 0.0095  time: 0.0903
+2023/06/08 17:13:13 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:13:13 - mmengine - INFO - Epoch(train) [187][37/37]  lr: 1.8248e-01  eta: 0:11:25  time: 0.2012  data_time: 0.0003  memory: 8251  loss: 2.1227
+2023/06/08 17:13:16 - mmengine - INFO - Epoch(val) [187][25/25]    accuracy/top1: 70.8279  accuracy/top5: 94.8253  data_time: 0.0093  time: 0.0902
+2023/06/08 17:13:24 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:13:24 - mmengine - INFO - Epoch(train) [188][37/37]  lr: 1.7851e-01  eta: 0:11:16  time: 0.2001  data_time: 0.0003  memory: 8251  loss: 2.0439
+2023/06/08 17:13:26 - mmengine - INFO - Epoch(val) [188][25/25]    accuracy/top1: 70.5692  accuracy/top5: 95.3428  data_time: 0.0093  time: 0.0898
+2023/06/08 17:13:35 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:13:35 - mmengine - INFO - Epoch(train) [189][37/37]  lr: 1.7458e-01  eta: 0:11:08  time: 0.2004  data_time: 0.0003  memory: 8251  loss: 2.3806
+2023/06/08 17:13:37 - mmengine - INFO - Epoch(val) [189][25/25]    accuracy/top1: 71.7335  accuracy/top5: 94.7607  data_time: 0.0094  time: 0.0900
+2023/06/08 17:13:39 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:13:45 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:13:45 - mmengine - INFO - Epoch(train) [190][37/37]  lr: 1.7068e-01  eta: 0:11:00  time: 0.2008  data_time: 0.0003  memory: 8251  loss: 2.0024
+2023/06/08 17:13:48 - mmengine - INFO - Epoch(val) [190][25/25]    accuracy/top1: 70.4398  accuracy/top5: 94.1138  data_time: 0.0097  time: 0.0925
+2023/06/08 17:13:56 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:13:56 - mmengine - INFO - Epoch(train) [191][37/37]  lr: 1.6681e-01  eta: 0:10:52  time: 0.2006  data_time: 0.0003  memory: 8251  loss: 2.0605
+2023/06/08 17:13:58 - mmengine - INFO - Epoch(val) [191][25/25]    accuracy/top1: 68.6934  accuracy/top5: 93.8551  data_time: 0.0098  time: 0.0907
+2023/06/08 17:14:07 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:14:07 - mmengine - INFO - Epoch(train) [192][37/37]  lr: 1.6297e-01  eta: 0:10:44  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 2.1267
+2023/06/08 17:14:09 - mmengine - INFO - Epoch(val) [192][25/25]    accuracy/top1: 72.2510  accuracy/top5: 95.2134  data_time: 0.0094  time: 0.0902
+2023/06/08 17:14:17 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:14:17 - mmengine - INFO - Epoch(train) [193][37/37]  lr: 1.5917e-01  eta: 0:10:35  time: 0.2010  data_time: 0.0003  memory: 8251  loss: 2.0969
+2023/06/08 17:14:20 - mmengine - INFO - Epoch(val) [193][25/25]    accuracy/top1: 70.9573  accuracy/top5: 94.4373  data_time: 0.0094  time: 0.0902
+2023/06/08 17:14:28 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:14:28 - mmengine - INFO - Epoch(train) [194][37/37]  lr: 1.5540e-01  eta: 0:10:27  time: 0.2004  data_time: 0.0003  memory: 8251  loss: 2.1795
+2023/06/08 17:14:30 - mmengine - INFO - Epoch(val) [194][25/25]    accuracy/top1: 71.5395  accuracy/top5: 95.8603  data_time: 0.0097  time: 0.0904
+2023/06/08 17:14:39 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:14:39 - mmengine - INFO - Epoch(train) [195][37/37]  lr: 1.5166e-01  eta: 0:10:19  time: 0.2006  data_time: 0.0003  memory: 8251  loss: 2.0217
+2023/06/08 17:14:41 - mmengine - INFO - Epoch(val) [195][25/25]    accuracy/top1: 70.3752  accuracy/top5: 94.8900  data_time: 0.0094  time: 0.0899
+2023/06/08 17:14:49 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:14:49 - mmengine - INFO - Epoch(train) [196][37/37]  lr: 1.4796e-01  eta: 0:10:11  time: 0.2012  data_time: 0.0003  memory: 8251  loss: 2.2002
+2023/06/08 17:14:52 - mmengine - INFO - Epoch(val) [196][25/25]    accuracy/top1: 71.6688  accuracy/top5: 94.3726  data_time: 0.0094  time: 0.0904
+2023/06/08 17:15:00 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:15:00 - mmengine - INFO - Epoch(train) [197][37/37]  lr: 1.4430e-01  eta: 0:10:02  time: 0.2008  data_time: 0.0003  memory: 8251  loss: 1.8617
+2023/06/08 17:15:02 - mmengine - INFO - Epoch(val) [197][25/25]    accuracy/top1: 73.8680  accuracy/top5: 95.0194  data_time: 0.0094  time: 0.0900
+2023/06/08 17:15:11 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:15:11 - mmengine - INFO - Epoch(train) [198][37/37]  lr: 1.4067e-01  eta: 0:09:54  time: 0.2011  data_time: 0.0003  memory: 8251  loss: 2.1926
+2023/06/08 17:15:13 - mmengine - INFO - Epoch(val) [198][25/25]    accuracy/top1: 70.8926  accuracy/top5: 94.5666  data_time: 0.0093  time: 0.0899
+2023/06/08 17:15:21 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:15:21 - mmengine - INFO - Epoch(train) [199][37/37]  lr: 1.3708e-01  eta: 0:09:46  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 1.9832
+2023/06/08 17:15:24 - mmengine - INFO - Epoch(val) [199][25/25]    accuracy/top1: 70.8279  accuracy/top5: 94.6313  data_time: 0.0094  time: 0.0903
+2023/06/08 17:15:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:15:32 - mmengine - INFO - Epoch(train) [200][37/37]  lr: 1.3352e-01  eta: 0:09:38  time: 0.2001  data_time: 0.0002  memory: 8251  loss: 2.2327
+2023/06/08 17:15:32 - mmengine - INFO - Saving checkpoint at 200 epochs
+2023/06/08 17:15:35 - mmengine - INFO - Epoch(val) [200][25/25]    accuracy/top1: 73.0272  accuracy/top5: 95.4075  data_time: 0.0095  time: 0.0902
+2023/06/08 17:15:43 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:15:43 - mmengine - INFO - Epoch(train) [201][37/37]  lr: 1.3001e-01  eta: 0:09:29  time: 0.2001  data_time: 0.0003  memory: 8251  loss: 2.2051
+2023/06/08 17:15:46 - mmengine - INFO - Epoch(val) [201][25/25]    accuracy/top1: 73.7387  accuracy/top5: 94.8900  data_time: 0.0097  time: 0.0903
+2023/06/08 17:15:54 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:15:54 - mmengine - INFO - Epoch(train) [202][37/37]  lr: 1.2653e-01  eta: 0:09:21  time: 0.2008  data_time: 0.0003  memory: 8251  loss: 1.9575
+2023/06/08 17:15:56 - mmengine - INFO - Epoch(val) [202][25/25]    accuracy/top1: 74.9030  accuracy/top5: 96.1190  data_time: 0.0097  time: 0.0903
+2023/06/08 17:16:04 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:16:04 - mmengine - INFO - Epoch(train) [203][37/37]  lr: 1.2309e-01  eta: 0:09:13  time: 0.2005  data_time: 0.0002  memory: 8251  loss: 2.1293
+2023/06/08 17:16:07 - mmengine - INFO - Epoch(val) [203][25/25]    accuracy/top1: 74.6442  accuracy/top5: 95.0841  data_time: 0.0096  time: 0.0903
+2023/06/08 17:16:15 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:16:15 - mmengine - INFO - Epoch(train) [204][37/37]  lr: 1.1968e-01  eta: 0:09:05  time: 0.2019  data_time: 0.0003  memory: 8251  loss: 1.7135
+2023/06/08 17:16:18 - mmengine - INFO - Epoch(val) [204][25/25]    accuracy/top1: 73.8680  accuracy/top5: 94.7607  data_time: 0.0094  time: 0.0908
+2023/06/08 17:16:25 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:16:25 - mmengine - INFO - Epoch(train) [205][37/37]  lr: 1.1632e-01  eta: 0:08:56  time: 0.1880  data_time: 0.0002  memory: 8251  loss: 1.8593
+2023/06/08 17:16:28 - mmengine - INFO - Epoch(val) [205][25/25]    accuracy/top1: 74.7736  accuracy/top5: 96.1190  data_time: 0.0095  time: 0.0851
+2023/06/08 17:16:35 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:16:35 - mmengine - INFO - Epoch(train) [206][37/37]  lr: 1.1300e-01  eta: 0:08:48  time: 0.1882  data_time: 0.0002  memory: 8251  loss: 1.9003
+2023/06/08 17:16:38 - mmengine - INFO - Epoch(val) [206][25/25]    accuracy/top1: 74.7089  accuracy/top5: 95.4722  data_time: 0.0095  time: 0.0852
+2023/06/08 17:16:45 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:16:45 - mmengine - INFO - Epoch(train) [207][37/37]  lr: 1.0971e-01  eta: 0:08:40  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 1.9880
+2023/06/08 17:16:48 - mmengine - INFO - Epoch(val) [207][25/25]    accuracy/top1: 73.6093  accuracy/top5: 94.7607  data_time: 0.0095  time: 0.0852
+2023/06/08 17:16:56 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:16:56 - mmengine - INFO - Epoch(train) [208][37/37]  lr: 1.0647e-01  eta: 0:08:31  time: 0.1882  data_time: 0.0002  memory: 8251  loss: 2.3653
+2023/06/08 17:16:58 - mmengine - INFO - Epoch(val) [208][25/25]    accuracy/top1: 71.0220  accuracy/top5: 94.8253  data_time: 0.0094  time: 0.0851
+2023/06/08 17:17:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:17:06 - mmengine - INFO - Epoch(train) [209][37/37]  lr: 1.0327e-01  eta: 0:08:23  time: 0.1882  data_time: 0.0003  memory: 8251  loss: 2.0612
+2023/06/08 17:17:08 - mmengine - INFO - Epoch(val) [209][25/25]    accuracy/top1: 76.9081  accuracy/top5: 95.5369  data_time: 0.0094  time: 0.0851
+2023/06/08 17:17:16 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:17:16 - mmengine - INFO - Epoch(train) [210][37/37]  lr: 1.0011e-01  eta: 0:08:14  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 1.8083
+2023/06/08 17:17:18 - mmengine - INFO - Epoch(val) [210][25/25]    accuracy/top1: 76.7788  accuracy/top5: 96.0543  data_time: 0.0124  time: 0.0881
+2023/06/08 17:17:26 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:17:26 - mmengine - INFO - Epoch(train) [211][37/37]  lr: 9.6996e-02  eta: 0:08:06  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 2.3297
+2023/06/08 17:17:28 - mmengine - INFO - Epoch(val) [211][25/25]    accuracy/top1: 74.9677  accuracy/top5: 96.1190  data_time: 0.0095  time: 0.0852
+2023/06/08 17:17:36 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:17:36 - mmengine - INFO - Epoch(train) [212][37/37]  lr: 9.3921e-02  eta: 0:07:58  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 1.8208
+2023/06/08 17:17:38 - mmengine - INFO - Epoch(val) [212][25/25]    accuracy/top1: 77.4256  accuracy/top5: 96.1837  data_time: 0.0093  time: 0.0851
+2023/06/08 17:17:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:17:46 - mmengine - INFO - Epoch(train) [213][37/37]  lr: 9.0890e-02  eta: 0:07:49  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 1.7637
+2023/06/08 17:17:48 - mmengine - INFO - Epoch(val) [213][25/25]    accuracy/top1: 76.3907  accuracy/top5: 96.0543  data_time: 0.0094  time: 0.0851
+2023/06/08 17:17:56 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:17:56 - mmengine - INFO - Epoch(train) [214][37/37]  lr: 8.7902e-02  eta: 0:07:41  time: 0.1882  data_time: 0.0002  memory: 8251  loss: 2.0616
+2023/06/08 17:17:58 - mmengine - INFO - Epoch(val) [214][25/25]    accuracy/top1: 77.8784  accuracy/top5: 96.3131  data_time: 0.0093  time: 0.0851
+2023/06/08 17:18:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:18:06 - mmengine - INFO - Epoch(train) [215][37/37]  lr: 8.4958e-02  eta: 0:07:33  time: 0.1882  data_time: 0.0002  memory: 8251  loss: 1.9305
+2023/06/08 17:18:08 - mmengine - INFO - Epoch(val) [215][25/25]    accuracy/top1: 77.1669  accuracy/top5: 96.1190  data_time: 0.0094  time: 0.0851
+2023/06/08 17:18:16 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:18:16 - mmengine - INFO - Epoch(train) [216][37/37]  lr: 8.2058e-02  eta: 0:07:24  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 1.8675
+2023/06/08 17:18:18 - mmengine - INFO - Epoch(val) [216][25/25]    accuracy/top1: 78.3312  accuracy/top5: 96.0543  data_time: 0.0093  time: 0.0850
+2023/06/08 17:18:20 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:18:26 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:18:26 - mmengine - INFO - Epoch(train) [217][37/37]  lr: 7.9203e-02  eta: 0:07:16  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 2.1263
+2023/06/08 17:18:28 - mmengine - INFO - Epoch(val) [217][25/25]    accuracy/top1: 76.5201  accuracy/top5: 96.0543  data_time: 0.0094  time: 0.0852
+2023/06/08 17:18:36 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:18:36 - mmengine - INFO - Epoch(train) [218][37/37]  lr: 7.6393e-02  eta: 0:07:08  time: 0.1881  data_time: 0.0002  memory: 8251  loss: 1.7308
+2023/06/08 17:18:38 - mmengine - INFO - Epoch(val) [218][25/25]    accuracy/top1: 77.6197  accuracy/top5: 96.0543  data_time: 0.0095  time: 0.0853
+2023/06/08 17:18:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:18:46 - mmengine - INFO - Epoch(train) [219][37/37]  lr: 7.3629e-02  eta: 0:06:59  time: 0.2023  data_time: 0.0003  memory: 8251  loss: 2.1674
+2023/06/08 17:18:49 - mmengine - INFO - Epoch(val) [219][25/25]    accuracy/top1: 76.3260  accuracy/top5: 95.7309  data_time: 0.0094  time: 0.0918
+2023/06/08 17:18:57 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:18:57 - mmengine - INFO - Epoch(train) [220][37/37]  lr: 7.0910e-02  eta: 0:06:51  time: 0.2023  data_time: 0.0004  memory: 8251  loss: 1.9362
+2023/06/08 17:19:00 - mmengine - INFO - Epoch(val) [220][25/25]    accuracy/top1: 75.9379  accuracy/top5: 95.4075  data_time: 0.0094  time: 0.0906
+2023/06/08 17:19:08 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:19:08 - mmengine - INFO - Epoch(train) [221][37/37]  lr: 6.8238e-02  eta: 0:06:43  time: 0.2031  data_time: 0.0004  memory: 8251  loss: 1.7087
+2023/06/08 17:19:10 - mmengine - INFO - Epoch(val) [221][25/25]    accuracy/top1: 75.1617  accuracy/top5: 95.4722  data_time: 0.0093  time: 0.0912
+2023/06/08 17:19:19 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:19:19 - mmengine - INFO - Epoch(train) [222][37/37]  lr: 6.5612e-02  eta: 0:06:35  time: 0.1965  data_time: 0.0003  memory: 8251  loss: 2.0485
+2023/06/08 17:19:21 - mmengine - INFO - Epoch(val) [222][25/25]    accuracy/top1: 78.0078  accuracy/top5: 95.7956  data_time: 0.0094  time: 0.0880
+2023/06/08 17:19:29 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:19:29 - mmengine - INFO - Epoch(train) [223][37/37]  lr: 6.3033e-02  eta: 0:06:27  time: 0.1959  data_time: 0.0003  memory: 8251  loss: 1.7372
+2023/06/08 17:19:31 - mmengine - INFO - Epoch(val) [223][25/25]    accuracy/top1: 76.7788  accuracy/top5: 95.7309  data_time: 0.0102  time: 0.0915
+2023/06/08 17:19:40 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:19:40 - mmengine - INFO - Epoch(train) [224][37/37]  lr: 6.0502e-02  eta: 0:06:18  time: 0.1951  data_time: 0.0003  memory: 8251  loss: 1.9115
+2023/06/08 17:19:42 - mmengine - INFO - Epoch(val) [224][25/25]    accuracy/top1: 77.3609  accuracy/top5: 96.1837  data_time: 0.0096  time: 0.0884
+2023/06/08 17:19:50 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:19:50 - mmengine - INFO - Epoch(train) [225][37/37]  lr: 5.8018e-02  eta: 0:06:10  time: 0.2004  data_time: 0.0003  memory: 8251  loss: 2.1203
+2023/06/08 17:19:52 - mmengine - INFO - Epoch(val) [225][25/25]    accuracy/top1: 76.2613  accuracy/top5: 95.7309  data_time: 0.0094  time: 0.0899
+2023/06/08 17:20:01 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:20:01 - mmengine - INFO - Epoch(train) [226][37/37]  lr: 5.5583e-02  eta: 0:06:02  time: 0.2015  data_time: 0.0003  memory: 8251  loss: 1.9803
+2023/06/08 17:20:03 - mmengine - INFO - Epoch(val) [226][25/25]    accuracy/top1: 78.5252  accuracy/top5: 96.1190  data_time: 0.0094  time: 0.0914
+2023/06/08 17:20:11 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:20:11 - mmengine - INFO - Epoch(train) [227][37/37]  lr: 5.3195e-02  eta: 0:05:54  time: 0.1992  data_time: 0.0003  memory: 8251  loss: 1.6861
+2023/06/08 17:20:14 - mmengine - INFO - Epoch(val) [227][25/25]    accuracy/top1: 79.1721  accuracy/top5: 96.5071  data_time: 0.0094  time: 0.0854
+2023/06/08 17:20:22 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:20:22 - mmengine - INFO - Epoch(train) [228][37/37]  lr: 5.0857e-02  eta: 0:05:45  time: 0.1890  data_time: 0.0002  memory: 8251  loss: 2.1770
+2023/06/08 17:20:24 - mmengine - INFO - Epoch(val) [228][25/25]    accuracy/top1: 79.3014  accuracy/top5: 96.8305  data_time: 0.0096  time: 0.0855
+2023/06/08 17:20:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:20:32 - mmengine - INFO - Epoch(train) [229][37/37]  lr: 4.8567e-02  eta: 0:05:37  time: 0.1888  data_time: 0.0002  memory: 8251  loss: 1.9199
+2023/06/08 17:20:34 - mmengine - INFO - Epoch(val) [229][25/25]    accuracy/top1: 79.4955  accuracy/top5: 96.3777  data_time: 0.0098  time: 0.0858
+2023/06/08 17:20:42 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:20:42 - mmengine - INFO - Epoch(train) [230][37/37]  lr: 4.6327e-02  eta: 0:05:29  time: 0.1886  data_time: 0.0002  memory: 8251  loss: 1.8953
+2023/06/08 17:20:44 - mmengine - INFO - Epoch(val) [230][25/25]    accuracy/top1: 79.6248  accuracy/top5: 96.8952  data_time: 0.0093  time: 0.0852
+2023/06/08 17:20:52 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:20:52 - mmengine - INFO - Epoch(train) [231][37/37]  lr: 4.4137e-02  eta: 0:05:20  time: 0.1889  data_time: 0.0003  memory: 8251  loss: 2.0035
+2023/06/08 17:20:54 - mmengine - INFO - Epoch(val) [231][25/25]    accuracy/top1: 80.4657  accuracy/top5: 96.3131  data_time: 0.0095  time: 0.0853
+2023/06/08 17:21:02 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:21:02 - mmengine - INFO - Epoch(train) [232][37/37]  lr: 4.1997e-02  eta: 0:05:12  time: 0.1887  data_time: 0.0002  memory: 8251  loss: 1.8128
+2023/06/08 17:21:04 - mmengine - INFO - Epoch(val) [232][25/25]    accuracy/top1: 79.5602  accuracy/top5: 96.4424  data_time: 0.0093  time: 0.0852
+2023/06/08 17:21:12 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:21:12 - mmengine - INFO - Epoch(train) [233][37/37]  lr: 3.9907e-02  eta: 0:05:04  time: 0.1887  data_time: 0.0002  memory: 8251  loss: 1.6366
+2023/06/08 17:21:14 - mmengine - INFO - Epoch(val) [233][25/25]    accuracy/top1: 80.7891  accuracy/top5: 96.6365  data_time: 0.0091  time: 0.0850
+2023/06/08 17:21:22 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:21:22 - mmengine - INFO - Epoch(train) [234][37/37]  lr: 3.7868e-02  eta: 0:04:56  time: 0.1906  data_time: 0.0002  memory: 8251  loss: 1.9608
+2023/06/08 17:21:24 - mmengine - INFO - Epoch(val) [234][25/25]    accuracy/top1: 80.0129  accuracy/top5: 96.3131  data_time: 0.0096  time: 0.0870
+2023/06/08 17:21:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:21:32 - mmengine - INFO - Epoch(train) [235][37/37]  lr: 3.5879e-02  eta: 0:04:47  time: 0.1886  data_time: 0.0002  memory: 8251  loss: 1.9185
+2023/06/08 17:21:34 - mmengine - INFO - Epoch(val) [235][25/25]    accuracy/top1: 79.8836  accuracy/top5: 96.3131  data_time: 0.0093  time: 0.0863
+2023/06/08 17:21:42 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:21:42 - mmengine - INFO - Epoch(train) [236][37/37]  lr: 3.3942e-02  eta: 0:04:39  time: 0.1887  data_time: 0.0002  memory: 8251  loss: 1.8542
+2023/06/08 17:21:44 - mmengine - INFO - Epoch(val) [236][25/25]    accuracy/top1: 80.5951  accuracy/top5: 96.5071  data_time: 0.0097  time: 0.0861
+2023/06/08 17:21:52 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:21:52 - mmengine - INFO - Epoch(train) [237][37/37]  lr: 3.2056e-02  eta: 0:04:31  time: 0.2014  data_time: 0.0004  memory: 8251  loss: 1.7471
+2023/06/08 17:21:55 - mmengine - INFO - Epoch(val) [237][25/25]    accuracy/top1: 80.7891  accuracy/top5: 96.3131  data_time: 0.0131  time: 0.0917
+2023/06/08 17:22:03 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:22:03 - mmengine - INFO - Epoch(train) [238][37/37]  lr: 3.0222e-02  eta: 0:04:23  time: 0.2014  data_time: 0.0004  memory: 8251  loss: 1.8612
+2023/06/08 17:22:05 - mmengine - INFO - Epoch(val) [238][25/25]    accuracy/top1: 80.7891  accuracy/top5: 96.8305  data_time: 0.0094  time: 0.0911
+2023/06/08 17:22:14 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:22:14 - mmengine - INFO - Epoch(train) [239][37/37]  lr: 2.8440e-02  eta: 0:04:14  time: 0.2028  data_time: 0.0003  memory: 8251  loss: 1.7280
+2023/06/08 17:22:16 - mmengine - INFO - Epoch(val) [239][25/25]    accuracy/top1: 80.0129  accuracy/top5: 96.7658  data_time: 0.0098  time: 0.0911
+2023/06/08 17:22:24 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:22:24 - mmengine - INFO - Epoch(train) [240][37/37]  lr: 2.6710e-02  eta: 0:04:06  time: 0.2024  data_time: 0.0003  memory: 8251  loss: 1.5999
+2023/06/08 17:22:27 - mmengine - INFO - Epoch(val) [240][25/25]    accuracy/top1: 81.1125  accuracy/top5: 96.5718  data_time: 0.0095  time: 0.0906
+2023/06/08 17:22:35 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:22:35 - mmengine - INFO - Epoch(train) [241][37/37]  lr: 2.5032e-02  eta: 0:03:58  time: 0.2024  data_time: 0.0002  memory: 8251  loss: 1.7378
+2023/06/08 17:22:38 - mmengine - INFO - Epoch(val) [241][25/25]    accuracy/top1: 81.1125  accuracy/top5: 96.7012  data_time: 0.0096  time: 0.0910
+2023/06/08 17:22:46 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:22:46 - mmengine - INFO - Epoch(train) [242][37/37]  lr: 2.3407e-02  eta: 0:03:50  time: 0.2022  data_time: 0.0003  memory: 8251  loss: 1.8045
+2023/06/08 17:22:48 - mmengine - INFO - Epoch(val) [242][25/25]    accuracy/top1: 80.0776  accuracy/top5: 96.4424  data_time: 0.0095  time: 0.0909
+2023/06/08 17:22:57 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:22:57 - mmengine - INFO - Epoch(train) [243][37/37]  lr: 2.1835e-02  eta: 0:03:42  time: 0.2018  data_time: 0.0003  memory: 8251  loss: 1.7534
+2023/06/08 17:22:59 - mmengine - INFO - Epoch(val) [243][25/25]    accuracy/top1: 80.9185  accuracy/top5: 96.4424  data_time: 0.0093  time: 0.0909
+2023/06/08 17:23:02 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:23:08 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:23:08 - mmengine - INFO - Epoch(train) [244][37/37]  lr: 2.0317e-02  eta: 0:03:33  time: 0.2027  data_time: 0.0003  memory: 8251  loss: 1.8579
+2023/06/08 17:23:10 - mmengine - INFO - Epoch(val) [244][25/25]    accuracy/top1: 81.7594  accuracy/top5: 96.7012  data_time: 0.0095  time: 0.0910
+2023/06/08 17:23:18 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:23:18 - mmengine - INFO - Epoch(train) [245][37/37]  lr: 1.8851e-02  eta: 0:03:25  time: 0.2025  data_time: 0.0003  memory: 8251  loss: 2.0550
+2023/06/08 17:23:21 - mmengine - INFO - Epoch(val) [245][25/25]    accuracy/top1: 81.5006  accuracy/top5: 96.5718  data_time: 0.0098  time: 0.0909
+2023/06/08 17:23:29 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:23:29 - mmengine - INFO - Epoch(train) [246][37/37]  lr: 1.7440e-02  eta: 0:03:17  time: 0.2024  data_time: 0.0003  memory: 8251  loss: 1.6534
+2023/06/08 17:23:31 - mmengine - INFO - Epoch(val) [246][25/25]    accuracy/top1: 81.1125  accuracy/top5: 96.9599  data_time: 0.0094  time: 0.0906
+2023/06/08 17:23:40 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:23:40 - mmengine - INFO - Epoch(train) [247][37/37]  lr: 1.6082e-02  eta: 0:03:09  time: 0.2025  data_time: 0.0003  memory: 8251  loss: 2.0191
+2023/06/08 17:23:42 - mmengine - INFO - Epoch(val) [247][25/25]    accuracy/top1: 80.9832  accuracy/top5: 96.7658  data_time: 0.0096  time: 0.0907
+2023/06/08 17:23:50 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:23:50 - mmengine - INFO - Epoch(train) [248][37/37]  lr: 1.4778e-02  eta: 0:03:01  time: 0.2019  data_time: 0.0003  memory: 8251  loss: 1.7607
+2023/06/08 17:23:53 - mmengine - INFO - Epoch(val) [248][25/25]    accuracy/top1: 82.4062  accuracy/top5: 96.7658  data_time: 0.0094  time: 0.0907
+2023/06/08 17:24:01 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:24:01 - mmengine - INFO - Epoch(train) [249][37/37]  lr: 1.3528e-02  eta: 0:02:52  time: 0.2022  data_time: 0.0003  memory: 8251  loss: 1.8667
+2023/06/08 17:24:03 - mmengine - INFO - Epoch(val) [249][25/25]    accuracy/top1: 82.2122  accuracy/top5: 96.8305  data_time: 0.0092  time: 0.0904
+2023/06/08 17:24:12 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:24:12 - mmengine - INFO - Epoch(train) [250][37/37]  lr: 1.2332e-02  eta: 0:02:44  time: 0.2027  data_time: 0.0003  memory: 8251  loss: 1.6338
+2023/06/08 17:24:12 - mmengine - INFO - Saving checkpoint at 250 epochs
+2023/06/08 17:24:15 - mmengine - INFO - Epoch(val) [250][25/25]    accuracy/top1: 82.0828  accuracy/top5: 97.4127  data_time: 0.0095  time: 0.0910
+2023/06/08 17:24:23 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:24:23 - mmengine - INFO - Epoch(train) [251][37/37]  lr: 1.1191e-02  eta: 0:02:36  time: 0.2026  data_time: 0.0003  memory: 8251  loss: 1.7855
+2023/06/08 17:24:25 - mmengine - INFO - Epoch(val) [251][25/25]    accuracy/top1: 82.1475  accuracy/top5: 96.8952  data_time: 0.0097  time: 0.0909
+2023/06/08 17:24:34 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:24:34 - mmengine - INFO - Epoch(train) [252][37/37]  lr: 1.0104e-02  eta: 0:02:28  time: 0.2027  data_time: 0.0003  memory: 8251  loss: 2.0828
+2023/06/08 17:24:36 - mmengine - INFO - Epoch(val) [252][25/25]    accuracy/top1: 82.0828  accuracy/top5: 96.7658  data_time: 0.0094  time: 0.0903
+2023/06/08 17:24:45 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:24:45 - mmengine - INFO - Epoch(train) [253][37/37]  lr: 9.0727e-03  eta: 0:02:19  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 1.5378
+2023/06/08 17:24:47 - mmengine - INFO - Epoch(val) [253][25/25]    accuracy/top1: 82.4062  accuracy/top5: 97.0246  data_time: 0.0096  time: 0.0903
+2023/06/08 17:24:55 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:24:55 - mmengine - INFO - Epoch(train) [254][37/37]  lr: 8.0959e-03  eta: 0:02:11  time: 0.2016  data_time: 0.0003  memory: 8251  loss: 1.7240
+2023/06/08 17:24:58 - mmengine - INFO - Epoch(val) [254][25/25]    accuracy/top1: 82.7943  accuracy/top5: 97.2186  data_time: 0.0094  time: 0.0901
+2023/06/08 17:25:06 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:25:06 - mmengine - INFO - Epoch(train) [255][37/37]  lr: 7.1742e-03  eta: 0:02:03  time: 0.2005  data_time: 0.0003  memory: 8251  loss: 1.7666
+2023/06/08 17:25:08 - mmengine - INFO - Epoch(val) [255][25/25]    accuracy/top1: 82.6003  accuracy/top5: 97.1539  data_time: 0.0094  time: 0.0903
+2023/06/08 17:25:17 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:25:17 - mmengine - INFO - Epoch(train) [256][37/37]  lr: 6.3078e-03  eta: 0:01:55  time: 0.2009  data_time: 0.0003  memory: 8251  loss: 1.6722
+2023/06/08 17:25:19 - mmengine - INFO - Epoch(val) [256][25/25]    accuracy/top1: 82.6649  accuracy/top5: 97.1539  data_time: 0.0096  time: 0.0911
+2023/06/08 17:25:27 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:25:27 - mmengine - INFO - Epoch(train) [257][37/37]  lr: 5.4966e-03  eta: 0:01:47  time: 0.2010  data_time: 0.0003  memory: 8251  loss: 1.9068
+2023/06/08 17:25:30 - mmengine - INFO - Epoch(val) [257][25/25]    accuracy/top1: 82.5356  accuracy/top5: 97.1539  data_time: 0.0094  time: 0.0903
+2023/06/08 17:25:38 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:25:38 - mmengine - INFO - Epoch(train) [258][37/37]  lr: 4.7409e-03  eta: 0:01:38  time: 0.2015  data_time: 0.0003  memory: 8251  loss: 1.7912
+2023/06/08 17:25:40 - mmengine - INFO - Epoch(val) [258][25/25]    accuracy/top1: 82.1475  accuracy/top5: 97.1539  data_time: 0.0096  time: 0.0909
+2023/06/08 17:25:49 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:25:49 - mmengine - INFO - Epoch(train) [259][37/37]  lr: 4.0408e-03  eta: 0:01:30  time: 0.2024  data_time: 0.0003  memory: 8251  loss: 2.0302
+2023/06/08 17:25:51 - mmengine - INFO - Epoch(val) [259][25/25]    accuracy/top1: 81.6947  accuracy/top5: 96.9599  data_time: 0.0094  time: 0.0906
+2023/06/08 17:25:59 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:25:59 - mmengine - INFO - Epoch(train) [260][37/37]  lr: 3.3963e-03  eta: 0:01:22  time: 0.2025  data_time: 0.0003  memory: 8251  loss: 1.9972
+2023/06/08 17:26:02 - mmengine - INFO - Epoch(val) [260][25/25]    accuracy/top1: 81.8887  accuracy/top5: 96.8305  data_time: 0.0098  time: 0.0910
+2023/06/08 17:26:10 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:26:10 - mmengine - INFO - Epoch(train) [261][37/37]  lr: 2.8076e-03  eta: 0:01:14  time: 0.2028  data_time: 0.0003  memory: 8251  loss: 1.4665
+2023/06/08 17:26:12 - mmengine - INFO - Epoch(val) [261][25/25]    accuracy/top1: 82.2122  accuracy/top5: 96.8952  data_time: 0.0094  time: 0.0908
+2023/06/08 17:26:21 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:26:21 - mmengine - INFO - Epoch(train) [262][37/37]  lr: 2.2746e-03  eta: 0:01:05  time: 0.2026  data_time: 0.0003  memory: 8251  loss: 1.6754
+2023/06/08 17:26:23 - mmengine - INFO - Epoch(val) [262][25/25]    accuracy/top1: 82.2768  accuracy/top5: 97.1539  data_time: 0.0094  time: 0.0906
+2023/06/08 17:26:32 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:26:32 - mmengine - INFO - Epoch(train) [263][37/37]  lr: 1.7976e-03  eta: 0:00:57  time: 0.2027  data_time: 0.0003  memory: 8251  loss: 1.7720
+2023/06/08 17:26:34 - mmengine - INFO - Epoch(val) [263][25/25]    accuracy/top1: 81.5006  accuracy/top5: 96.7658  data_time: 0.0096  time: 0.0909
+2023/06/08 17:26:42 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:26:42 - mmengine - INFO - Epoch(train) [264][37/37]  lr: 1.3765e-03  eta: 0:00:49  time: 0.2017  data_time: 0.0003  memory: 8251  loss: 1.6633
+2023/06/08 17:26:45 - mmengine - INFO - Epoch(val) [264][25/25]    accuracy/top1: 82.1475  accuracy/top5: 96.9599  data_time: 0.0094  time: 0.0906
+2023/06/08 17:26:53 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:26:53 - mmengine - INFO - Epoch(train) [265][37/37]  lr: 1.0115e-03  eta: 0:00:41  time: 0.2025  data_time: 0.0003  memory: 8251  loss: 1.9162
+2023/06/08 17:26:55 - mmengine - INFO - Epoch(val) [265][25/25]    accuracy/top1: 82.0181  accuracy/top5: 96.8305  data_time: 0.0094  time: 0.0908
+2023/06/08 17:27:04 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:27:04 - mmengine - INFO - Epoch(train) [266][37/37]  lr: 7.0251e-04  eta: 0:00:32  time: 0.2024  data_time: 0.0003  memory: 8251  loss: 1.4673
+2023/06/08 17:27:06 - mmengine - INFO - Epoch(val) [266][25/25]    accuracy/top1: 82.4062  accuracy/top5: 97.0246  data_time: 0.0097  time: 0.0911
+2023/06/08 17:27:15 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:27:15 - mmengine - INFO - Epoch(train) [267][37/37]  lr: 4.4965e-04  eta: 0:00:24  time: 0.2032  data_time: 0.0003  memory: 8251  loss: 1.9793
+2023/06/08 17:27:17 - mmengine - INFO - Epoch(val) [267][25/25]    accuracy/top1: 81.8887  accuracy/top5: 96.8952  data_time: 0.0093  time: 0.0908
+2023/06/08 17:27:25 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:27:25 - mmengine - INFO - Epoch(train) [268][37/37]  lr: 2.5295e-04  eta: 0:00:16  time: 0.1883  data_time: 0.0002  memory: 8251  loss: 1.6900
+2023/06/08 17:27:27 - mmengine - INFO - Epoch(val) [268][25/25]    accuracy/top1: 82.1475  accuracy/top5: 96.9599  data_time: 0.0096  time: 0.0878
+2023/06/08 17:27:35 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:27:35 - mmengine - INFO - Epoch(train) [269][37/37]  lr: 1.1243e-04  eta: 0:00:08  time: 0.1885  data_time: 0.0003  memory: 8251  loss: 1.6572
+2023/06/08 17:27:37 - mmengine - INFO - Epoch(val) [269][25/25]    accuracy/top1: 82.0181  accuracy/top5: 96.9599  data_time: 0.0093  time: 0.0851
+2023/06/08 17:27:45 - mmengine - INFO - Exp name: my_resnest50_32xb64_in1k_20230608_164017
+2023/06/08 17:27:45 - mmengine - INFO - Epoch(train) [270][37/37]  lr: 2.8108e-05  eta: 0:00:00  time: 0.1883  data_time: 0.0002  memory: 8251  loss: 1.4598
+2023/06/08 17:27:45 - mmengine - INFO - Saving checkpoint at 270 epochs
+2023/06/08 17:27:48 - mmengine - INFO - Epoch(val) [270][25/25]    accuracy/top1: 81.8241  accuracy/top5: 97.0246  data_time: 0.0096  time: 0.0856
